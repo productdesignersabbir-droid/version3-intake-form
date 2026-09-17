@@ -4417,6 +4417,13 @@
      would clip Florida and Maine for no visual gain. */
   .usmap { border-radius: 0; }
 </style>
+<style id="full-bleed">
+  /* Live flow: each screen fills the window — no framed card, border or outer padding. */
+  body.frames { padding: 0; background: var(--page); min-height: 100vh; }
+  body.frames .frame-grid { display: block; gap: 0; }
+  body.frames .frame-grid > div, body.frames .frame { width: auto; max-width: none; border: 0; background: var(--page); }
+  body.frames .frame .stage { min-height: 0; }
+</style>
 </head>
 <body class="frames">
 <div class="frame-grid"><div><div class="frame"><div class="promo">Get stronger, longer-lasting erections in 2026.<b>Get 30% off instantly</b></div>
