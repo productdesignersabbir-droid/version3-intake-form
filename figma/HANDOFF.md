@@ -2,26 +2,31 @@
 
 Everything here describes **screen 34, the checkout** (`Intake form 1/braevon-screen-34-checkout.html`).
 
-- `braevon-checkout-figma.html` — the import file: a spec column plus four phone frames.
-- `assets/` — every image the frames use (PNG renders, chart SVG, wordmark, research logos).
+- `index.html` — contact sheet: links to the four frames plus these notes.
+- `frames/01-6-pack.html` … `frames/04-discount-applied.html` — the four states.
+- `assets/` — exports of the renders, chart, wordmark and research logos.
+
+## What the frames are
+
+Each frame **is the production page** (`Intake form 1/braevon-screen-34-checkout.html`) with:
+
+- its own CSS untouched — nothing redrawn, so the design that imports is the real one;
+- the scripts removed, so the file is static;
+- the DOM set to the state the script would have produced (selection, prices, popup, open hold note);
+- the assessment's masthead, nav row, progress bar and back button hidden, exactly as the script hides
+  them on this `data-bare` step;
+- the onset chart's animations set to land immediately, so an importer cannot catch them mid-run.
 
 ## Importing into Figma
 
-1. Open the published URL of `braevon-checkout-figma.html` (see the repo's GitHub Pages link).
-2. In Figma, run **html.to.design** and paste that URL.
-3. Each `<section class="frame">` arrives as one Figma frame, named by its id:
-   `checkout-6-pack`, `checkout-12-pack`, `offer-popup`, `checkout-discount-applied`.
+1. Run **html.to.design** and paste one frame URL at a time; each becomes its own Figma frame.
+2. Set the import width to **390 px**. The phone layout lives in `@media (max-width:480px)` and
+   `(max-width:420px)`, so the import width decides which layout you get. The content column caps at 432 px.
+3. Import all four at the same width so they line up side by side.
 
-The markup was written for a clean import:
-
-- **Auto layout everywhere.** Every container is a flex row or column with an explicit `gap`.
-  No margins are used between siblings, so Figma reads the spacing as auto-layout gaps.
-- **No absolute positioning.** The SAVE 33% disc, the pack badges and the ready-block rail all sit
-  in the flow, so nothing arrives as a free-floating layer.
-- **No filler layers.** No wrapper holds a single child, so the Figma layer tree matches the design.
-- **Fluid inside a fixed frame.** Frames are 390 px wide; children use `width:100%` or `flex:1`.
-  Stretching a frame in Figma reflows the layout instead of scaling it.
-- **Real image files**, not embedded data, so each render lands as one placed image.
+The production CSS positions a few things absolutely by design — the SAVE 33% disc over the render, the
+badge on a pack card, the ready-block arrow. Those arrive as positioned layers rather than auto-layout
+children. That is how the page is actually built, not an import artefact.
 
 ## Frames
 
@@ -102,5 +107,5 @@ before adding "'s", otherwise a stored trailing space renders as "Sabbir 's".
 | `assets/braevon-wordmark.svg` | Masthead and footer wordmark. |
 | `assets/logos/*.svg` | Mayo Clinic, Stanford, WebMD, Harvard, NIH. |
 
-Stars, ticks and small glyphs are text characters in this file so the layer count stays low — swap
-them for the production icon set when building the Figma library.
+Inside the frames these images stay embedded exactly as production serves them; the files in `assets/`
+are there for building the Figma library.

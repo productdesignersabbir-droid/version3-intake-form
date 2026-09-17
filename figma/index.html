@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Braevon checkout — Figma frames</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  :root{--ink:#171D2C;--muted:#4B5568;--accent:#E6430D;--border:#DEE2EA;--wash:#F2F4F7}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#E7EAED;color:var(--ink);
+    font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    padding:40px 20px}
+  main{display:flex;flex-direction:column;gap:32px;max-width:820px;margin:0 auto}
+  .card{display:flex;flex-direction:column;gap:16px;background:#fff;border-radius:16px;padding:28px}
+  h1{font-size:26px;font-weight:800}
+  h2{font-size:15px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--accent)}
+  p,li{font-size:14px;line-height:1.65;color:#3C4658}
+  ul{display:flex;flex-direction:column;gap:8px;padding-left:18px}
+  .frames{display:flex;flex-direction:column;gap:12px}
+  .frame-link{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:16px;
+    padding:16px 18px;border:1px solid var(--border);border-radius:10px;text-decoration:none;color:inherit}
+  .frame-link:hover{border-color:var(--accent)}
+  .frame-link b{font-size:15px}
+  .frame-link span{font-size:13px;color:var(--muted)}
+  .frame-link em{font-style:normal;font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;background:var(--wash);
+    padding:2px 6px;border-radius:4px}
+  table{border-collapse:collapse;width:100%}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);font-size:13px}
+  th{font-weight:800}
+  .sw{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:8px;
+    border:1px solid rgba(23,29,44,.1)}
+</style>
+</head>
+<body>
+<main>
+  <section class="card">
+    <h1>Braevon checkout — Figma frames</h1>
+    <p>Four states of the live checkout screen. Each file <b>is</b> the production page
+       (<code>braevon-screen-34-checkout.html</code>) with its own CSS untouched, the scripts removed and
+       the markup frozen in that state — nothing has been redrawn, so what imports is the real design.</p>
+    <div class="frames">
+      <a class="frame-link" href="frames/01-6-pack.html">
+        <b>01 — 6 Pack selected</b><span>How the page loads. All prices $99.00.</span><em>Open →</em></a>
+      <a class="frame-link" href="frames/02-12-pack.html">
+        <b>02 — 12 Pack selected</b><span>Tag, render, SAVE 33% disc and prices switch to $132.00.</span><em>Open →</em></a>
+      <a class="frame-link" href="frames/03-offer-popup.html">
+        <b>03 — 25% off popup</b><span>The dialog over the default page, 10s after load.</span><em>Open →</em></a>
+      <a class="frame-link" href="frames/04-discount-applied.html">
+        <b>04 — Discount applied</b><span>Struck original beside the new price; hold note open.</span><em>Open →</em></a>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Importing into Figma</h2>
+    <ul>
+      <li>Run <b>html.to.design</b> and paste one frame URL at a time — each becomes its own Figma frame.</li>
+      <li>Set the import width to <b>390&nbsp;px</b>. The page is built mobile-first and its phone rules
+          live in <code>@media (max-width:480px)</code> and <code>(max-width:420px)</code>, so the width
+          you import at decides which layout you get. The content column caps at 432&nbsp;px.</li>
+      <li>Import all four at the same width so the frames line up for comparison.</li>
+    </ul>
+    <p>The pages carry the production CSS, which uses absolute positioning in a few places by design
+       (the SAVE 33% disc over the render, the badge on a pack card, the ready-block arrow). Those arrive
+       as positioned layers rather than auto-layout children — that is the real build, not an import artefact.</p>
+  </section>
+
+  <section class="card">
+    <h2>Colour tokens</h2>
+    <table>
+      <tr><th>Token</th><th>Hex</th><th>Used for</th></tr>
+      <tr><td><span class="sw" style="background:#171D2C"></span>Ink</td><td>#171D2C</td><td>Primary text</td></tr>
+      <tr><td><span class="sw" style="background:#4B5568"></span>Muted</td><td>#4B5568</td><td>Body copy, captions</td></tr>
+      <tr><td><span class="sw" style="background:#E6430D"></span>Accent</td><td>#E6430D</td><td>CTAs, pack names, tags</td></tr>
+      <tr><td><span class="sw" style="background:#171D2C"></span>Countdown gradient</td><td>#171D2C → #5A6275</td><td>Top bar, reserved pill, ready strip</td></tr>
+      <tr><td><span class="sw" style="background:#4ADE80"></span>Countdown time</td><td>#4ADE80</td><td>The ticking figure</td></tr>
+      <tr><td><span class="sw" style="background:#59AC77"></span>MOST POPULAR</td><td>#59AC77</td><td>6 Pack badge, white text</td></tr>
+      <tr><td><span class="sw" style="background:#66BB6A"></span>BEST VALUE</td><td>#66BB6A</td><td>12 Pack badge, white text</td></tr>
+      <tr><td><span class="sw" style="background:#C8E6C9"></span>SAVE fill</td><td>#C8E6C9</td><td>SAVE 33% disc, text #1B5E20</td></tr>
+      <tr><td><span class="sw" style="background:#F97316"></span>Ready rail</td><td>#F97316</td><td>Rule and arrow above “What’s included?”</td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>States and behaviour</h2>
+    <ul>
+      <li><b>Pack selection.</b> 6 Pack is selected on load — border #F3A184 with a 3&nbsp;px
+          rgba(230,67,13,.15) glow. Choosing a pack updates the pack tag, the render, the SAVE 33% disc
+          (12 Pack only) and every price on the page, including the order summary and the ready strip.</li>
+      <li><b>Countdown.</b> Starts at 15:00 and ticks once per second in three places — top bar,
+          “reserved for” pill and ready block. They always show the same value.</li>
+      <li><b>Offer popup.</b> Fires 10&nbsp;s after load, once per visit, never again once claimed.
+          Closes on the X, the scrim or Esc. Claiming applies −25% to every price and leaves the reader
+          exactly where they were: no scrolling, no navigation.</li>
+      <li><b>Discounted price.</b> Original struck through in grey beside the new figure in green.</li>
+      <li><b>Authorization hold note.</b> Under Continue, centred. First sentence always visible, the rest
+          behind Read more / Read less (frame 04 shows it open). It replaced the old “By subscribing…” line.</li>
+      <li><b>Name.</b> The first name from the intake form is echoed in the top bar and the H1, trimmed
+          before the apostrophe so a stored trailing space cannot render as “Sabbir ’s”.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Assets</h2>
+    <p>Exports of everything the page draws, in <code>assets/</code>: <code>pack-6.png</code> and
+       <code>pack-12.png</code> (product renders), <code>tablets.png</code>,
+       <code>onset-chart.svg</code> (static export of the animated chart),
+       <code>braevon-wordmark.svg</code> and <code>logos/</code> (Mayo, Stanford, WebMD, Harvard, NIH).
+       Inside the frames these images are embedded exactly as production serves them.</p>
+  </section>
+</main>
+</body>
+</html>
