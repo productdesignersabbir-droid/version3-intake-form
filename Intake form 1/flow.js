@@ -91,7 +91,7 @@
         back();
       } else {
         var pack = e.target.closest(".ck-pack");
-        if (pack) { store.pack = pack.dataset.pack; save(); setTimeout(syncShotSave, 0); }
+        if (pack) { store.pack = pack.dataset.pack; save(); setTimeout(function () { syncShotSave(); renderDiscount(); }, 0); }
       }
     }, true);
     document.addEventListener("input", function (e) {
@@ -108,6 +108,69 @@
     if (document.fonts) document.fonts.ready.then(fitHeadline);
     return;
   }
+  /* ------------------------------------------------ 25% off offer popup */
+  /* Seven seconds after the checkout opens, a "Take 25% off" popup appears
+     (once per visit, and never again once claimed). Claiming it knocks 25% off
+     every price on the page; the original is kept, struck through, beside it. */
+  function money(n) { return "$" + n.toFixed(2); }
+  function priceOf(str) { return parseFloat(String(str).replace(/[^\d.]/g, "")) || 0; }
+  function renderDiscount() {
+    if (!store.discount) return;
+    $$(".ck-pack[data-price]").forEach(function (p) {
+      if (!p.dataset.fullPrice) p.dataset.fullPrice = p.dataset.price;
+      p.dataset.price = money(priceOf(p.dataset.fullPrice) * 0.75);
+    });
+    var picked = document.querySelector(".ck-pack.selected");
+    if (picked) {
+      $$("[data-pack-price]").forEach(function (el) {
+        el.innerHTML = '<s class="ck-was">' + picked.dataset.fullPrice + "</s> " + picked.dataset.price;
+      });
+    }
+    $$(".ck-ready-strip b").forEach(function (el) {
+      if (!el.dataset.fullPrice) el.dataset.fullPrice = el.textContent;
+      el.textContent = money(priceOf(el.dataset.fullPrice) * 0.75);
+    });
+  }
+  function scheduleOffer() {
+    if (store.discount || scheduleOffer.done) return;
+    scheduleOffer.done = true;
+    setTimeout(showOffer, 7000);
+  }
+  function showOffer() {
+    if (store.discount || document.querySelector(".ck-offer")) return;
+    var wrap = document.createElement("div");
+    wrap.className = "ck-offer";
+    wrap.innerHTML =
+      '<div class="ck-offer-card" role="dialog" aria-modal="true" aria-labelledby="ckOfferTitle">' +
+        '<button class="ck-offer-x" type="button" aria-label="Close">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>' +
+        "</button>" +
+        '<h2 id="ckOfferTitle">Take <span>25% off</span></h2>' +
+        "<p>You\u2019re clicks away from a better sex life.<br>Let\u2019s do this.</p>" +
+        '<button class="cta ck-offer-claim" type="button">Claim My Offer</button>' +
+        '<small>*First-time customers only</small>' +
+      "</div>";
+    document.body.appendChild(wrap);
+    requestAnimationFrame(function () { wrap.classList.add("on"); });
+    function close() {
+      wrap.classList.remove("on");
+      document.removeEventListener("keydown", onKey);
+      setTimeout(function () { wrap.remove(); }, 200);
+    }
+    function onKey(e) { if (e.key === "Escape") close(); }
+    document.addEventListener("keydown", onKey);
+    wrap.addEventListener("click", function (e) {
+      if (e.target === wrap || e.target.closest(".ck-offer-x")) return close();
+      if (e.target.closest(".ck-offer-claim")) {
+        store.discount = 25; save();
+        renderDiscount();
+        close();
+      }
+    });
+    var claim = wrap.querySelector(".ck-offer-claim");
+    if (claim) claim.focus({ preventScroll: true });
+  }
+
   /* The round "SAVE 33%" tag on the product image belongs to the 12 pack. */
   function syncShotSave() {
     var picked = document.querySelector(".ck-pack.selected");
@@ -140,6 +203,8 @@
     }
     fitHeadline();
     syncShotSave();
+    renderDiscount();
+    scheduleOffer();
     var picked = document.querySelector(".ck-pack.selected");
     if (picked && !store.pack) { store.pack = picked.dataset.pack; save(); }
   }

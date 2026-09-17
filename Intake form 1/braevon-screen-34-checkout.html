@@ -1752,6 +1752,20 @@ body.frames .track i{animation:none}
   .ck-logos img{height:22px}
   .ck-logos .lg-webmd,.ck-logos .lg-nih{height:19px}
 }
+/* "Take 25% off" popup (built by flow.js) and the struck-through original price. */
+.ck-offer{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:16px;background:rgba(15,20,30,.55);opacity:0;transition:opacity .2s ease}
+.ck-offer.on{opacity:1}
+.ck-offer-card{position:relative;width:100%;max-width:420px;box-sizing:border-box;background:#fff;border-radius:14px;padding:44px 28px 26px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.25);transform:translateY(8px);transition:transform .2s ease}
+.ck-offer.on .ck-offer-card{transform:none}
+.ck-offer-x{position:absolute;top:12px;right:12px;width:36px;height:36px;display:grid;place-items:center;border:0;background:none;color:var(--muted);cursor:pointer;border-radius:8px}
+.ck-offer-x svg{width:20px;height:20px}
+.ck-offer-card h2{margin:0;font-size:40px;line-height:1.1;font-weight:800;letter-spacing:-.02em;color:var(--title-ink)}
+.ck-offer-card h2 span{color:var(--accent)}
+.ck-offer-card p{margin:14px 0 24px;font-size:17px;line-height:1.45;font-weight:700;color:var(--ink)}
+.ck-offer-claim{width:100%}
+.ck-offer-card small{display:block;margin-top:14px;font-size:13px;color:var(--muted)}
+.ck-was{display:inline-block;font-weight:500;color:var(--muted);text-decoration:line-through;text-decoration-thickness:1.5px;margin-right:4px}
+@media (max-width:420px){ .ck-offer-card h2{font-size:34px} .ck-offer-card p{font-size:15px} }
 @media (max-width:379px){ .ck-h1{font-size:23px} }
 /* Price line a little smaller on phones. */
 @media (max-width:480px){
