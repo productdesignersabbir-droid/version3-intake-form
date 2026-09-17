@@ -102,6 +102,37 @@
       if (!e.target.matches("[data-billing-same]")) return;
       $$("[data-billing]").forEach(function (b) { b.hidden = e.target.checked; });
     });
+    /* TEMPORARY colour-option switcher for client review (see #color-options
+       in the checkout page). Delete once an option is chosen. */
+    function colorOptions() {
+      if (document.querySelector(".opt-bar")) return;
+      var swatch = { 1: "#084734", 2: "#171D2C", 3: "#2A56D0" };
+      var bar = document.createElement("div");
+      bar.className = "opt-bar";
+      [1, 2, 3].forEach(function (n) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.dataset.opt = n;
+        btn.innerHTML = '<i style="background:' + swatch[n] + '"></i>Option ' + n;
+        bar.appendChild(btn);
+      });
+      document.body.insertBefore(bar, document.body.firstChild);
+      function pick(n) {
+        document.documentElement.setAttribute("data-color-option", n);
+        $$(".opt-bar button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.opt == n)); });
+        try { sessionStorage.setItem("braevon-color-option", n); } catch (_) {}
+      }
+      bar.addEventListener("click", function (e) {
+        var b = e.target.closest("button[data-opt]");
+        if (b) { e.stopPropagation(); pick(b.dataset.opt); }
+      });
+      var fromUrl = (location.search.match(/[?&]option=([123])/) || [])[1];
+      var saved = null;
+      try { saved = sessionStorage.getItem("braevon-color-option"); } catch (_) {}
+      pick(fromUrl || saved || 1);
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", colorOptions);
+    else colorOptions();
     document.addEventListener("DOMContentLoaded", fillCheckout);
     if (document.readyState !== "loading") fillCheckout();
     window.addEventListener("resize", fitHeadline);

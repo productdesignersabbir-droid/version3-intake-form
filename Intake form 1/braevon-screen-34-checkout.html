@@ -1799,6 +1799,34 @@ body.frames .track i{animation:none}
   .ck-goals li{font-size:14px;white-space:nowrap}
 }
 </style>
+<style id="color-options">
+/* ---------------------------------------------------------------------------
+   TEMPORARY - colour options for client review. A bar of three buttons at the
+   top switches the three time/price banners (.ck-clock, .ck-pill,
+   .ck-ready-strip) between palettes. Option 1 is the default styling in
+   #checkout-tweaks. Once the client picks one: keep that palette, delete this
+   block and the switcher code in flow.js.
+   ------------------------------------------------------------------------- */
+.opt-bar{position:sticky;top:0;z-index:900;display:flex;justify-content:center;gap:8px;
+  padding:10px 16px;background:#fff;border-bottom:1px solid var(--hairline);box-shadow:0 2px 10px rgba(15,20,30,.06)}
+.opt-bar button{flex:0 1 120px;min-width:0;height:38px;border-radius:8px;border:1px solid var(--border);
+  background:#fff;font-family:inherit;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.opt-bar button i{width:12px;height:12px;border-radius:50%;flex:none}
+.opt-bar button[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset}
+/* Option 2: same as option 1 (white type, lime-glow time/price), fill is a
+   gradient of the promo bar's dark ink (#171D2C) into a lighter grey-dark. */
+html[data-color-option="2"] .ck-clock,
+html[data-color-option="2"] .ck-pill,
+html[data-color-option="2"] .ck-ready-strip{background:linear-gradient(90deg,#171D2C 0%,#3B4254 100%)}
+/* Option 3: Medvi-style blue gradient, white type, light-cyan highlights */
+html[data-color-option="3"] .ck-clock,
+html[data-color-option="3"] .ck-pill,
+html[data-color-option="3"] .ck-ready-strip{background:linear-gradient(90deg,#3A78E8 0%,#2A56D0 55%,#1C3AAE 100%);color:#fff}
+html[data-color-option="3"] .ck-clock b,
+html[data-color-option="3"] .ck-pill b,
+html[data-color-option="3"] .ck-ready-strip b{color:#8FE3FF}
+</style>
 </head>
 <body>
 <div class="shell"><header class="masthead"><div class="logo"><svg viewBox="0 0 323 83" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Braevon">
