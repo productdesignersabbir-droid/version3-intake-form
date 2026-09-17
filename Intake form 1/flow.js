@@ -165,6 +165,9 @@
         store.discount = 25; save();
         renderDiscount();
         close();
+        /* Take them straight to the product card showing the new price. */
+        var card = document.querySelector(".ck-prod");
+        if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     });
     var claim = wrap.querySelector(".ck-offer-claim");
