@@ -77,10 +77,10 @@
   if (isCheckout) {
     document.addEventListener("click", function (e) {
       if (e.target.closest(".cta-next")) {
-        /* "Checkout" takes the reader up to the payment section on this page. */
+        /* "Checkout" takes the reader up to where Shipping Information starts. */
         e.stopPropagation(); e.preventDefault();
-        var pay = document.querySelector("[data-pay-group]");
-        var form = pay && pay.closest(".ck-form");
+        var ship = document.getElementById("ck_email");
+        var form = ship && ship.closest(".ck-form");
         if (form) form.scrollIntoView({ behavior: "smooth", block: "start" });
       } else if (e.target.closest(".ck-continue")) {
         /* The payment form's Continue completes checkout and moves on. */
