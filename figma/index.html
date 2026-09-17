@@ -57,13 +57,19 @@
 
   <section class="card">
     <h2>Importing into Figma</h2>
+    <p>Use the <b>html.to.design</b> plugin (Figma Community &rarr; install &rarr; Plugins menu).
+       The free plan allows 10 imports every 30 days, so four frames fit comfortably.</p>
     <ul>
-      <li>Run <b>html.to.design</b> and paste one frame URL at a time — each becomes its own Figma frame.</li>
-      <li>Set the import width to <b>390&nbsp;px</b>. The page is built mobile-first and its phone rules
-          live in <code>@media (max-width:480px)</code> and <code>(max-width:420px)</code>, so the width
-          you import at decides which layout you get. The content column caps at 432&nbsp;px.</li>
-      <li>Import all four at the same width so the frames line up for comparison.</li>
+      <li><b>By URL (simplest).</b> Open the plugin, paste one frame URL, pick the viewport, hit Import.
+          Repeat for the other three. The URLs are public, so the plugin can reach them.</li>
+      <li><b>By file.</b> Download <a href="braevon-checkout-frames.zip">braevon-checkout-frames.zip</a>
+          and drop it on the plugin's file import. The zip holds the four frames plus the research logos,
+          so nothing is missing offline.</li>
     </ul>
+    <p><b>Set the viewport to 390&nbsp;px wide</b> (Mobile preset, or a custom width). The page is
+       mobile-first and its phone rules live in <code>@media (max-width:480px)</code> and
+       <code>(max-width:420px)</code>, so the import width decides which layout you get. The content
+       column caps at 432&nbsp;px. Import all four at the same width so they line up.</p>
     <p>The pages carry the production CSS, which uses absolute positioning in a few places by design
        (the SAVE 33% disc over the render, the badge on a pack card, the ready-block arrow). Those arrive
        as positioned layers rather than auto-layout children — that is the real build, not an import artefact.</p>

@@ -19,10 +19,18 @@ Each frame **is the production page** (`Intake form 1/braevon-screen-34-checkout
 
 ## Importing into Figma
 
-1. Run **html.to.design** and paste one frame URL at a time; each becomes its own Figma frame.
-2. Set the import width to **390 px**. The phone layout lives in `@media (max-width:480px)` and
-   `(max-width:420px)`, so the import width decides which layout you get. The content column caps at 432 px.
-3. Import all four at the same width so they line up side by side.
+Use the **html.to.design** plugin (Figma Community → install → Plugins menu). Its free plan allows
+10 imports every 30 days, so four frames fit comfortably.
+
+**By URL** — open the plugin, paste one frame URL, choose the viewport, Import. Repeat for the other
+three. The URLs are public, so the plugin can reach them.
+
+**By file** — download `braevon-checkout-frames.zip` (in this folder) and drop it on the plugin's file
+import. It holds the four frames plus the research logos, so nothing is missing offline.
+
+**Set the viewport to 390 px wide** (Mobile preset or a custom width). The page is mobile-first and its
+phone rules live in `@media (max-width:480px)` and `(max-width:420px)`, so the import width decides which
+layout you get; the content column caps at 432 px. Import all four at the same width so they line up.
 
 The production CSS positions a few things absolutely by design — the SAVE 33% disc over the render, the
 badge on a pack card, the ready-block arrow. Those arrive as positioned layers rather than auto-layout
