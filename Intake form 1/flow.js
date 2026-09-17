@@ -84,7 +84,7 @@
         back();
       } else {
         var pack = e.target.closest(".ck-pack");
-        if (pack) { store.pack = pack.dataset.pack; save(); }
+        if (pack) { store.pack = pack.dataset.pack; save(); setTimeout(syncShotSave, 0); }
       }
     }, true);
     document.addEventListener("input", function (e) {
@@ -95,6 +95,13 @@
     window.addEventListener("resize", fitHeadline);
     if (document.fonts) document.fonts.ready.then(fitHeadline);
     return;
+  }
+  /* The round "SAVE 33%" tag on the product image belongs to the 12 pack. */
+  function syncShotSave() {
+    var picked = document.querySelector(".ck-pack.selected");
+    $$("[data-shot-save]").forEach(function (t) {
+      t.hidden = !picked || picked.dataset.pack !== "12";
+    });
   }
   /* The checkout headline leads with the patient's name and holds to two
      lines: it steps down 1px at a time until it fits. */
@@ -120,6 +127,7 @@
       $$("[data-fname-echo]").forEach(function (e) { e.textContent = f.firstName + "’s"; });
     }
     fitHeadline();
+    syncShotSave();
     var picked = document.querySelector(".ck-pack.selected");
     if (picked && !store.pack) { store.pack = picked.dataset.pack; save(); }
   }
