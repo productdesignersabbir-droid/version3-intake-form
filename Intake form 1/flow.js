@@ -92,7 +92,21 @@
     });
     document.addEventListener("DOMContentLoaded", fillCheckout);
     if (document.readyState !== "loading") fillCheckout();
+    window.addEventListener("resize", fitHeadline);
+    if (document.fonts) document.fonts.ready.then(fitHeadline);
     return;
+  }
+  /* The checkout headline leads with the patient's name and holds to two
+     lines: it steps down 1px at a time until it fits. */
+  function fitHeadline() {
+    var h = document.querySelector(".ck-h1");
+    if (!h) return;
+    h.style.fontSize = "";
+    var size = parseFloat(getComputedStyle(h).fontSize);
+    function lines() {
+      return Math.round(h.getBoundingClientRect().height / parseFloat(getComputedStyle(h).lineHeight));
+    }
+    while (lines() > 2 && size > 18) { size -= 1; h.style.fontSize = size + "px"; }
   }
   function fillCheckout() {
     var f = store.fields;
@@ -105,6 +119,7 @@
     if (f.firstName) {
       $$("[data-fname-echo]").forEach(function (e) { e.textContent = f.firstName + "’s"; });
     }
+    fitHeadline();
     var picked = document.querySelector(".ck-pack.selected");
     if (picked && !store.pack) { store.pack = picked.dataset.pack; save(); }
   }
