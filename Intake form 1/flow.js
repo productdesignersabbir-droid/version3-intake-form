@@ -97,6 +97,11 @@
     document.addEventListener("input", function (e) {
       if (e.target.id) { store.fields[e.target.id] = e.target.value; save(); }
     });
+    /* Unticking "Billing is same as shipping" opens the billing address fields. */
+    document.addEventListener("change", function (e) {
+      if (!e.target.matches("[data-billing-same]")) return;
+      $$("[data-billing]").forEach(function (b) { b.hidden = e.target.checked; });
+    });
     document.addEventListener("DOMContentLoaded", fillCheckout);
     if (document.readyState !== "loading") fillCheckout();
     window.addEventListener("resize", fitHeadline);
