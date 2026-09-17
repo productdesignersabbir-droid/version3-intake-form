@@ -98,41 +98,19 @@
       if (e.target.id) { store.fields[e.target.id] = e.target.value; save(); }
     });
     /* Unticking "Billing is same as shipping" opens the billing address fields. */
+    /* Read more / Read less on the authorization-hold note under Continue. */
+    document.addEventListener("click", function (e) {
+      var t = e.target.closest("[data-hold-toggle]");
+      if (!t) return;
+      var open = t.getAttribute("aria-expanded") !== "true";
+      t.setAttribute("aria-expanded", String(open));
+      document.getElementById(t.getAttribute("aria-controls")).hidden = !open;
+      t.querySelector("span").textContent = open ? "Read less" : "Read more";
+    });
     document.addEventListener("change", function (e) {
       if (!e.target.matches("[data-billing-same]")) return;
       $$("[data-billing]").forEach(function (b) { b.hidden = e.target.checked; });
     });
-    /* TEMPORARY colour-option switcher for client review (see #color-options
-       in the checkout page). Delete once an option is chosen. */
-    function colorOptions() {
-      if (document.querySelector(".opt-bar")) return;
-      var swatch = { 1: "#084734", 2: "#171D2C", 3: "#EA580C" };
-      var bar = document.createElement("div");
-      bar.className = "opt-bar";
-      [1, 2, 3].forEach(function (n) {
-        var btn = document.createElement("button");
-        btn.type = "button";
-        btn.dataset.opt = n;
-        btn.innerHTML = '<i style="background:' + swatch[n] + '"></i>Option ' + n;
-        bar.appendChild(btn);
-      });
-      document.body.insertBefore(bar, document.body.firstChild);
-      function pick(n) {
-        document.documentElement.setAttribute("data-color-option", n);
-        $$(".opt-bar button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.opt == n)); });
-        try { sessionStorage.setItem("braevon-color-option", n); } catch (_) {}
-      }
-      bar.addEventListener("click", function (e) {
-        var b = e.target.closest("button[data-opt]");
-        if (b) { e.stopPropagation(); pick(b.dataset.opt); }
-      });
-      var fromUrl = (location.search.match(/[?&]option=([123])/) || [])[1];
-      var saved = null;
-      try { saved = sessionStorage.getItem("braevon-color-option"); } catch (_) {}
-      pick(fromUrl || saved || 1);
-    }
-    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", colorOptions);
-    else colorOptions();
     document.addEventListener("DOMContentLoaded", fillCheckout);
     if (document.readyState !== "loading") fillCheckout();
     window.addEventListener("resize", fitHeadline);
@@ -140,7 +118,7 @@
     return;
   }
   /* ------------------------------------------------ 25% off offer popup */
-  /* Seven seconds after the checkout opens, a "Take 25% off" popup appears
+  /* Ten seconds after the checkout opens, a "Take 25% off" popup appears
      (once per visit, and never again once claimed). Claiming it knocks 25% off
      every price on the page; the original is kept, struck through, beside it. */
   function money(n) { return "$" + n.toFixed(2); }
@@ -165,7 +143,7 @@
   function scheduleOffer() {
     if (store.discount || scheduleOffer.done) return;
     scheduleOffer.done = true;
-    setTimeout(showOffer, 7000);
+    setTimeout(showOffer, 10000);
   }
   function showOffer() {
     if (store.discount || document.querySelector(".ck-offer")) return;
@@ -233,7 +211,7 @@
         if (el && p[1] && !el.value) el.value = p[1];
       });
     if (f.firstName) {
-      $$("[data-fname-echo]").forEach(function (e) { e.textContent = f.firstName + "’s"; });
+      $$("[data-fname-echo]").forEach(function (e) { e.textContent = f.firstName.trim() + "’s"; });
     }
     fitHeadline();
     syncShotSave();
