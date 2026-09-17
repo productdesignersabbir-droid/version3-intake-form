@@ -1,0 +1,943 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Braevon Checkout — Figma handoff</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --ink:#171D2C; --muted:#4B5568; --faint:#7A8394; --accent:#E6430D;
+  --page:#FFFFFF; --board:#E7EAED; --border:#DEE2EA; --hairline:#EDEFF3;
+  --wash:#F2F4F7; --green-pop:#59AC77; --green-value:#66BB6A;
+  --green-save-bg:#C8E6C9; --green-save-ink:#1B5E20; --time:#4ADE80;
+  --rail:#F97316; --radius:10px; --radius-card:8px; --radius-media:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--board);font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  color:var(--ink);-webkit-font-smoothing:antialiased}
+.board{display:flex;flex-direction:row;align-items:flex-start;gap:80px;padding:80px}
+.frame-col{display:flex;flex-direction:column;gap:16px;width:390px}
+.frame-name{font-size:18px;font-weight:800;color:#3C4658}
+.frame-note{font-size:13px;line-height:1.5;color:#6B7485}
+.frame{display:flex;flex-direction:column;width:390px;background:var(--page);overflow:hidden}
+
+/* ---------------------------------------------------------------- masthead */
+.masthead{display:flex;flex-direction:row;align-items:center;justify-content:space-between;
+  gap:12px;padding:14px 16px;background:var(--page)}
+.wordmark{width:104px;height:27px}
+.rating{display:flex;flex-direction:row;align-items:center;gap:6px}
+.rating-text{font-size:12px;font-weight:700;color:var(--ink)}
+.stars{font-size:12px;letter-spacing:1px;color:#00B67A}
+
+/* ------------------------------------------------------------- countdowns */
+.clock{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:6px;
+  padding:10px 16px;background:linear-gradient(90deg,#171D2C 0%,#5A6275 100%);color:#fff;
+  font-size:13px;font-weight:600}
+.clock-time{font-weight:800;color:var(--time);text-decoration:underline;text-underline-offset:3px}
+.pill{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:6px;
+  padding:10px 16px;border-radius:4px;background:linear-gradient(90deg,#171D2C 0%,#5A6275 100%);
+  color:#fff;font-size:13px;font-weight:600}
+.pill-time{font-weight:800;color:var(--time)}
+
+/* -------------------------------------------------------------- page stack */
+.page{display:flex;flex-direction:column;gap:32px;padding:24px 16px 40px}
+.h1{font-size:26px;line-height:1.25;font-weight:800;text-align:center}
+.h2{font-size:22px;line-height:1.3;font-weight:800;text-align:center}
+.body-copy{font-size:15px;line-height:1.6;color:var(--muted)}
+.card{display:flex;flex-direction:column;gap:16px;padding:20px;background:var(--page);
+  border-radius:var(--radius-media);box-shadow:0 6px 24px rgba(16,20,34,.08)}
+
+/* ------------------------------------------------------------------- goals */
+.goals{display:flex;flex-direction:row;align-items:center;gap:16px;padding:18px;
+  background:var(--page);border-radius:var(--radius-media);box-shadow:0 6px 24px rgba(16,20,34,.08)}
+.avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(180deg,#5B7CE0,#3F5FC4);flex:none}
+.goals-body{display:flex;flex-direction:column;gap:8px}
+.goals-title{font-size:13px;font-weight:800;letter-spacing:.04em;color:var(--accent)}
+.goals-list{display:flex;flex-direction:column;gap:6px;list-style:none}
+.goals-list li{font-size:15px;font-weight:500;color:var(--ink)}
+.intro{display:flex;flex-direction:column;gap:16px}
+.chart{width:100%;height:auto}
+
+/* --------------------------------------------------------------- programme */
+.prog-head{display:flex;flex-direction:row;align-items:center;gap:10px}
+.prog-title{font-size:19px;font-weight:800}
+.prog-body{display:flex;flex-direction:row;align-items:center;gap:16px}
+.prog-copy{display:flex;flex-direction:column;gap:10px;flex:1}
+.prog-img{width:120px;height:auto;flex:none}
+.prob{display:flex;flex-direction:row;align-items:center;gap:16px;padding:16px;
+  border-radius:var(--radius-card);background:#FFF4F6}
+.prob-copy{font-size:14px;line-height:1.5;flex:1}
+.prob-fig{display:flex;flex-direction:column;align-items:center;gap:2px;flex:none}
+.prob-pct{font-size:24px;font-weight:800;color:var(--accent)}
+.prob-label{font-size:11px;font-weight:800;letter-spacing:.04em;color:var(--muted)}
+
+/* ---------------------------------------------------------------- benefits */
+.section{display:flex;flex-direction:column;gap:20px}
+.rows{display:flex;flex-direction:column;gap:16px}
+.row{display:flex;flex-direction:row;align-items:flex-start;gap:12px}
+.row-mark{width:34px;height:34px;border-radius:50%;background:var(--wash);flex:none;
+  display:flex;align-items:center;justify-content:center;font-size:15px}
+.row-body{display:flex;flex-direction:column;gap:2px;flex:1}
+.row-title{font-size:16px;font-weight:700}
+.row-sub{font-size:13px;line-height:1.45;color:var(--muted)}
+
+/* ------------------------------------------------------------- what's incl */
+.incl-card{display:flex;flex-direction:row;align-items:center;gap:16px;padding:20px;
+  background:var(--page);border-radius:var(--radius-media);box-shadow:0 6px 24px rgba(16,20,34,.08)}
+.incl-img{width:96px;height:auto;flex:none}
+.incl-body{display:flex;flex-direction:column;gap:10px;flex:1}
+.incl-head{display:flex;flex-direction:row;align-items:center;gap:8px;flex-wrap:wrap}
+.incl-name{font-size:17px;font-weight:800}
+.tag{padding:4px 8px;border-radius:4px;background:var(--accent);color:#fff;
+  font-size:11px;font-weight:800;letter-spacing:.03em}
+.molecules{display:flex;flex-direction:column;gap:4px;list-style:none}
+.molecules li{font-size:13px;line-height:1.45;color:var(--muted)}
+.incl-list{display:flex;flex-direction:column;gap:12px;list-style:none}
+.incl-list li{display:flex;flex-direction:row;align-items:flex-start;gap:10px;font-size:14px;
+  line-height:1.5;color:var(--muted)}
+.check{color:#2E9E5B;font-weight:800;flex:none}
+
+/* ------------------------------------------------------------------- steps */
+.steps{display:flex;flex-direction:column;list-style:none}
+.step{display:flex;flex-direction:column;gap:6px;padding:0 0 28px 20px;border-left:5px solid #FBD0BE}
+.step:last-child{border-left-color:transparent;padding-bottom:0}
+.step-no{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--accent)}
+.step-title{font-size:16px;font-weight:700}
+
+/* ------------------------------------------------------------------- packs */
+.packs{display:flex;flex-direction:row;gap:16px}
+.pack{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;padding:14px 12px 18px;
+  border:1px solid var(--hairline);border-radius:var(--radius-card);background:var(--page)}
+.pack.is-selected{border-color:#F3A184;box-shadow:0 0 0 3px rgba(230,67,13,.15)}
+.badge{padding:4px 8px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:.03em;color:#fff}
+.badge-popular{background:var(--green-pop)}
+.badge-value{background:var(--green-value)}
+.pack-name{font-size:22px;font-weight:700;color:var(--accent)}
+.pack-hours{font-size:13px;color:var(--ink)}
+.pack-save{padding:3px 8px;border-radius:4px;background:var(--green-save-bg);
+  color:var(--green-save-ink);font-size:12px;font-weight:800}
+
+/* --------------------------------------------------------------- prod card */
+.prod{display:flex;flex-direction:column;gap:16px;padding:20px;background:var(--page);
+  border-radius:var(--radius-media);box-shadow:0 6px 24px rgba(16,20,34,.08)}
+.prod-head{display:flex;flex-direction:row;align-items:flex-start;justify-content:space-between;gap:12px}
+.prod-id{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.prod-name{font-size:19px;font-weight:800}
+.prod-kind{font-size:14px;color:var(--muted)}
+.prod-rate{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.prod-count{font-size:12px;color:var(--muted)}
+.prod-shot{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;
+  padding:16px;border-radius:var(--radius-card);background:var(--wash)}
+.prod-img{width:190px;height:auto}
+.save-disc{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  width:96px;height:96px;border-radius:50%;background:var(--green-save-bg);color:var(--green-save-ink);
+  font-size:15px;font-weight:800;line-height:1.2;text-align:center;flex:none}
+.prod-price{display:flex;flex-direction:row;align-items:baseline;justify-content:center;gap:8px;
+  font-size:19px;font-weight:600}
+.price-now{font-size:24px;font-weight:800;color:#0F7A3D;text-decoration:underline;text-underline-offset:4px}
+.price-was{font-size:20px;font-weight:700;color:var(--faint);text-decoration:line-through}
+.prod-list{display:flex;flex-direction:column;gap:10px;list-style:none}
+.prod-list li{display:flex;flex-direction:row;align-items:flex-start;gap:10px;font-size:13px;
+  line-height:1.5;color:var(--muted)}
+
+/* -------------------------------------------------------------- trust rows */
+.trust{display:flex;flex-direction:column;align-items:center;gap:6px}
+.trust-line{display:flex;flex-direction:row;align-items:center;gap:8px;font-size:14px;font-weight:700}
+.trust-sub{font-size:12px;color:var(--muted)}
+
+/* ------------------------------------------------------------------- forms */
+.form{display:flex;flex-direction:column;gap:16px;padding:20px;background:var(--page);
+  border-radius:var(--radius-media);box-shadow:0 6px 24px rgba(16,20,34,.08)}
+.form-title{font-size:17px;font-weight:800}
+.field{display:flex;flex-direction:column;gap:6px}
+.field-label{font-size:13px;font-weight:600;color:var(--muted)}
+.input{display:flex;flex-direction:row;align-items:center;padding:12px 14px;border:1px solid var(--border);
+  border-radius:var(--radius);font-size:15px;color:var(--faint);background:var(--page)}
+.field-row{display:flex;flex-direction:row;gap:12px}
+.field-row .field{flex:1}
+.check-row{display:flex;flex-direction:row;align-items:center;gap:10px}
+.box{width:18px;height:18px;border-radius:4px;border:1px solid var(--border);background:var(--wash);flex:none}
+.check-text{font-size:14px;color:var(--muted)}
+.pay-tabs{display:flex;flex-direction:row;gap:10px}
+.pay-tab{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:6px;flex:1;
+  height:48px;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;font-weight:700}
+.pay-tab.is-selected{border-color:var(--accent);color:var(--accent)}
+.pay-tab.is-wallet{background:#000;border-color:#000;color:#fff}
+.cta{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;
+  padding:16px;border-radius:var(--radius);background:var(--accent);color:#fff;font-size:17px;font-weight:800}
+.hold{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;
+  font-size:13px;line-height:1.55;color:var(--muted)}
+.hold-toggle{display:flex;flex-direction:row;align-items:center;gap:4px;font-size:13px;
+  font-weight:700;color:var(--ink)}
+
+/* ------------------------------------------------- guarantee / research etc */
+.guar{display:flex;flex-direction:row;align-items:flex-start;gap:12px}
+.guar-mark{width:28px;height:28px;border-radius:50%;border:2px solid #4B5BD6;flex:none}
+.guar-body{display:flex;flex-direction:column;gap:6px;flex:1}
+.research{display:flex;flex-direction:column;align-items:center;gap:16px}
+.research-title{font-size:13px;font-weight:800;letter-spacing:.08em;color:var(--muted)}
+.logos{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
+.logos img{height:26px;width:auto;opacity:.75}
+.quote{display:flex;flex-direction:column;gap:10px;padding:18px;border-radius:var(--radius-media);
+  background:#FDECE6}
+.quote-head{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+.quote-name{font-size:14px;font-weight:800}
+.quote-verified{font-size:12px;color:var(--muted)}
+.quote-title{font-size:16px;font-weight:800}
+
+/* -------------------------------------------------------------- ready rail */
+.ready{display:flex;flex-direction:column;gap:16px}
+.eyebrow{align-self:flex-start;padding:8px 16px;border-radius:999px;background:var(--wash);
+  color:var(--accent);font-size:15px;font-weight:700}
+.ready-h{font-size:24px;font-weight:800;line-height:1.25}
+.rail{display:flex;flex-direction:row;gap:14px}
+.rail-line{width:5px;border-radius:3px;background:var(--rail);flex:none}
+.rail-body{display:flex;flex-direction:column;gap:16px;flex:1}
+.rail-clock{font-size:13px;font-weight:600;color:var(--muted)}
+.rail-clock b{color:var(--accent)}
+.strip{padding:10px 16px;border-radius:4px;background:linear-gradient(90deg,#171D2C 0%,#5A6275 100%);
+  color:#fff;font-size:13px}
+.strip b{color:var(--time);font-weight:900}
+.rail-line-copy{font-size:19px;font-weight:600;line-height:1.3}
+.summary{display:flex;flex-direction:row;align-items:center;gap:12px;padding:16px;
+  border-radius:var(--radius-media);background:var(--wash)}
+.summary-img{width:150px;height:auto;flex:none}
+.summary-body{display:flex;flex-direction:column;gap:8px;align-items:flex-start;flex:1}
+.summary-name{font-size:15px;font-weight:600}
+.summary-price{display:flex;flex-direction:row;align-items:baseline;gap:8px}
+.foot-note{font-size:13px;line-height:1.5;text-align:center;color:var(--muted)}
+
+/* --------------------------------------------------------------------- faq */
+.faq{display:flex;flex-direction:column;gap:20px;padding:24px 20px;border-radius:var(--radius-media);
+  background:var(--wash)}
+.faq-row{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:12px;
+  padding-bottom:16px;border-bottom:1px solid var(--border);font-size:15px;font-weight:700}
+
+/* ------------------------------------------------------------------ footer */
+.footer{display:flex;flex-direction:column;gap:16px;padding:32px 16px;background:var(--ink);color:#fff}
+.footer p{font-size:12px;line-height:1.6;color:#C3C9D6}
+.footer-links{display:flex;flex-direction:column;gap:8px;font-size:12px;font-weight:700}
+
+/* ---------------------------------------------------------- offer overlay */
+.scrim{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  width:390px;height:720px;padding:24px;background:rgba(16,20,34,.55)}
+.offer{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;padding:28px 20px;
+  border-radius:var(--radius-media);background:var(--page);text-align:center}
+.offer-title{font-size:34px;font-weight:800}
+.offer-title span{color:var(--accent)}
+.offer-copy{font-size:16px;font-weight:700;line-height:1.45}
+.offer-small{font-size:12px;color:var(--muted)}
+
+/* ------------------------------------------------------------ spec column */
+.spec{display:flex;flex-direction:column;gap:24px;width:420px;padding:28px;background:#fff;
+  border-radius:16px}
+.spec h3{font-size:15px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--accent)}
+.spec-block{display:flex;flex-direction:column;gap:8px}
+.spec p, .spec li{font-size:13px;line-height:1.6;color:#3C4658}
+.spec ul{display:flex;flex-direction:column;gap:6px;padding-left:16px}
+.swatches{display:flex;flex-direction:row;flex-wrap:wrap;gap:10px}
+.swatch{display:flex;flex-direction:column;gap:4px;width:118px}
+.chip{height:34px;border-radius:6px;border:1px solid rgba(23,29,44,.08)}
+.chip-label{font-size:11px;font-weight:700;color:#3C4658}
+.chip-hex{font-size:11px;color:#7A8394}
+</style>
+</head>
+<body>
+<main class="board">
+
+<aside class="spec">
+  <div class="spec-block">
+    <h3>How to read this file</h3>
+    <p>Four phone frames of the Braevon checkout (screen 34), rebuilt as plain flex markup so
+       an importer maps every container to a Figma auto-layout frame. Frames are 390&nbsp;px wide;
+       everything inside is fluid (<b>100%</b> width or <b>flex:1</b>), so stretching a frame reflows
+       the layout instead of scaling it.</p>
+    <p><b>Import:</b> html.to.design &rarr; paste the published URL of this page. Each
+       <code>.frame</code> becomes one Figma frame, named by its id.</p>
+    <p><b>Structure rules used:</b> no absolute positioning, no wrapper that holds a single child,
+       one flex direction per container, spacing by <code>gap</code> only (never margins between
+       siblings), images as real files in <code>assets/</code>.</p>
+  </div>
+  <div class="spec-block">
+    <h3>Colour tokens</h3>
+    <div class="swatches"><div class="swatch"><div class="chip" style="background:#171D2C"></div><span class="chip-label">Ink / text</span><span class="chip-hex">#171D2C</span></div><div class="swatch"><div class="chip" style="background:#4B5568"></div><span class="chip-label">Muted text</span><span class="chip-hex">#4B5568</span></div><div class="swatch"><div class="chip" style="background:#E6430D"></div><span class="chip-label">Accent / CTA</span><span class="chip-hex">#E6430D</span></div><div class="swatch"><div class="chip" style="background:#FFFFFF"></div><span class="chip-label">Page</span><span class="chip-hex">#FFFFFF</span></div><div class="swatch"><div class="chip" style="background:#F2F4F7"></div><span class="chip-label">Wash / shot bg</span><span class="chip-hex">#F2F4F7</span></div><div class="swatch"><div class="chip" style="background:#DEE2EA"></div><span class="chip-label">Border</span><span class="chip-hex">#DEE2EA</span></div><div class="swatch"><div class="chip" style="background:#171D2C"></div><span class="chip-label">Countdown from</span><span class="chip-hex">#171D2C</span></div><div class="swatch"><div class="chip" style="background:#5A6275"></div><span class="chip-label">Countdown to</span><span class="chip-hex">#5A6275</span></div><div class="swatch"><div class="chip" style="background:#4ADE80"></div><span class="chip-label">Countdown time</span><span class="chip-hex">#4ADE80</span></div><div class="swatch"><div class="chip" style="background:#59AC77"></div><span class="chip-label">Badge MOST POPULAR</span><span class="chip-hex">#59AC77</span></div><div class="swatch"><div class="chip" style="background:#66BB6A"></div><span class="chip-label">Badge BEST VALUE</span><span class="chip-hex">#66BB6A</span></div><div class="swatch"><div class="chip" style="background:#C8E6C9"></div><span class="chip-label">SAVE fill</span><span class="chip-hex">#C8E6C9</span></div><div class="swatch"><div class="chip" style="background:#1B5E20"></div><span class="chip-label">SAVE text</span><span class="chip-hex">#1B5E20</span></div><div class="swatch"><div class="chip" style="background:#F97316"></div><span class="chip-label">Ready rail</span><span class="chip-hex">#F97316</span></div></div>
+  </div>
+  <div class="spec-block">
+    <h3>Type</h3>
+    <ul>
+      <li>Plus Jakarta Sans throughout (400/500/600/700/800).</li>
+      <li>H1 26&nbsp;px / 800 / centred &middot; Section H2 22&nbsp;px / 800 / centred.</li>
+      <li>Body 15&nbsp;px / 1.6 in muted; small print 13&nbsp;px.</li>
+      <li>Pack name 22&nbsp;px / 700 in accent; price 24&nbsp;px / 800 underlined.</li>
+    </ul>
+  </div>
+  <div class="spec-block">
+    <h3>Spacing &amp; shape</h3>
+    <ul>
+      <li>Page column: 16&nbsp;px side padding, 32&nbsp;px between blocks.</li>
+      <li>Cards: 20&nbsp;px padding, 16&nbsp;px radius, shadow 0 6 24 rgba(16,20,34,.08).</li>
+      <li>Buttons and inputs: 10&nbsp;px radius; pack cards 8&nbsp;px.</li>
+      <li>Rows inside a card: 16&nbsp;px gap; list items 10–12&nbsp;px.</li>
+    </ul>
+  </div>
+  <div class="spec-block">
+    <h3>States &amp; behaviour</h3>
+    <ul>
+      <li><b>Pack selection:</b> 6 Pack is selected on load. Selected = 1&nbsp;px #F3A184 border plus
+          3&nbsp;px rgba(230,67,13,.15) glow. Selecting a pack re-renders the pack tag, the render,
+          the SAVE disc (12 Pack only) and every price on the page.</li>
+      <li><b>Countdown:</b> starts at 15:00 and ticks down once per second in three places
+          (top bar, reserved pill, ready block). Same value in all three.</li>
+      <li><b>Offer popup:</b> fires 10&nbsp;s after load, once per visit, never again once claimed.
+          Claiming applies &minus;25&nbsp;% to every price and keeps the reader in place &mdash; no scroll,
+          no navigation. Dismiss with the X, the scrim or Esc.</li>
+      <li><b>Discounted price:</b> original struck through in grey, new price beside it in green.</li>
+      <li><b>Authorization note:</b> under Continue; first sentence always visible, the rest behind
+          Read more / Read less (frame 04 shows it open).</li>
+      <li><b>Name:</b> the first name from the intake form is echoed in the top bar and the H1,
+          trimmed before the apostrophe (&ldquo;Sabbir&rsquo;s&rdquo;).</li>
+    </ul>
+  </div>
+  <div class="spec-block">
+    <h3>Assets</h3>
+    <ul>
+      <li><code>assets/pack-6.png</code>, <code>assets/pack-12.png</code> &mdash; product renders (transparent PNG).</li>
+      <li><code>assets/tablets.png</code>, <code>assets/onset-chart.svg</code> (static export of the animated chart).</li>
+      <li><code>assets/braevon-wordmark.svg</code>, <code>assets/logos/*.svg</code>.</li>
+      <li>Stars, ticks and glyphs are text characters here; swap for the production icon set.</li>
+    </ul>
+  </div>
+</aside>
+<div class="frame-col"><h2 class="frame-name">01 — Checkout / 6 Pack (default)</h2><p class="frame-note">Default state. 6 Pack is pre-selected: orange outline + glow, and the product card, order summary and strip all show the 6 Pack render at $99.00.</p>
+<section class="frame" id="checkout-6-pack">
+
+<header class="masthead">
+  <img class="wordmark" src="assets/braevon-wordmark.svg" alt="BRAEVON"/>
+  <div class="rating"><span class="rating-text">Excellent 4.6</span><span class="stars">★★★★★</span></div>
+</header>
+  <div class="clock"><span>Sabbir’s approval is valid for</span><span class="clock-time">15:00</span></div>
+  <div class="page">
+    <h1 class="h1">Sabbir’s BRAEVON PRIME™ prescription plan approval!</h1>
+
+<section class="goals">
+  <div class="avatar"></div>
+  <div class="goals-body">
+    <p class="goals-title">YOUR GOALS</p>
+    <ul class="goals-list">
+      <li>Better erections</li>
+      <li>Improve stamina &amp; endurance</li>
+      <li>Longer duration &amp; satisfaction</li>
+    </ul>
+  </div>
+</section>
+    <div class="intro">
+      <p class="body-copy">You get <b>clinician-prescribed medication</b>, personalised dosing delivered discreetly to your door. Plus 1:1 physician guidance, and 24/7 Braevon support.</p>
+      <p class="body-copy">Your medication price never goes up — even when your dose increases.</p>
+    </div>
+    <img class="chart" src="assets/onset-chart.svg" alt="Onset and duration chart"/>
+
+<section class="card">
+  <div class="prog-head"><span class="row-mark">⚕</span><h2 class="prog-title">BRAEVON PRIME™</h2></div>
+  <div class="prog-body">
+    <div class="prog-copy">
+      <p class="body-copy">Based on your intake form, you are a good candidate for the <b>BRAEVON PRIME™ programme</b>.</p>
+      <p class="body-copy">This 4-in-1 stack is designed to prime desire (brain) and boost blood flow (body) in one sublingual dose.</p>
+    </div>
+    <img class="prog-img" src="assets/tablets.png" alt="Three BRAEVON PRIME tablets"/>
+  </div>
+  <div class="prob">
+    <p class="prob-copy">You have a <b>very high</b> chance of success with prescribed BRAEVON medication</p>
+    <div class="prob-fig"><span class="prob-pct">94%</span><span class="prob-label">VERY HIGH</span></div>
+  </div>
+</section>
+    <section class="section">
+      <h2 class="h2">The goals you will accomplish with your plan:</h2>
+      <div class="rows"><div class="row"><span class="row-mark">⚡</span><div class="row-body"><span class="row-title">Be Ready in Minutes</span><span class="row-sub">Results seen within 10–15 min</span></div></div><div class="row"><span class="row-mark">♡</span><div class="row-body"><span class="row-title">Feel Desire Again</span><span class="row-sub">Primes the brain’s arousal pathways</span></div></div><div class="row"><span class="row-mark">↗</span><div class="row-body"><span class="row-title">Boost Performance</span><span class="row-sub">Supports a strong blood-flow response</span></div></div><div class="row"><span class="row-mark">⏱</span><div class="row-body"><span class="row-title">Last Longer</span><span class="row-sub">Up to 36 hour performance window</span></div></div><div class="row"><span class="row-mark">★</span><div class="row-body"><span class="row-title">Increased Confidence</span><span class="row-sub">A 4-in-1 formula for a reliable experience</span></div></div></div>
+    </section>
+    <section class="section">
+      <h2 class="h2">What’s included:</h2>
+      <div class="incl-card">
+        <img class="incl-img" src="assets/pack-6.png" alt="BRAEVON pouch"/>
+        <div class="incl-body">
+          <div class="incl-head"><span class="incl-name">BRAEVON PRIME™</span><span class="tag">4-IN-1 STACK</span></div>
+          <ul class="molecules">
+            <li><b>Sildenafil:</b> For getting hard fast</li>
+            <li><b>Tadalafil:</b> For staying ready up to 36 hours</li>
+            <li><b>Vardenafil:</b> For a firmer, more reliable response</li>
+            <li><b>Apomorphine:</b> Ignites desire in the brain</li>
+          </ul>
+        </div>
+      </div>
+      <ul class="incl-list"><li><span class="check">✓</span><span>Medication, supplies and instructions</span></li><li><span class="check">✓</span><span>Cancel anytime, come back anytime</span></li><li><span class="check">✓</span><span>24/7 medical support</span></li><li><span class="check">✓</span><span>One-on-one access to our team of physicians</span></li><li><span class="check">✓</span><span>Free express shipping, discreetly packaged</span></li><li><span class="check">✓</span><span>Our promise to help you as much (or as little) as you want along the way</span></li></ul>
+    </section>
+    <section class="section">
+      <h2 class="h2">What happens next?</h2>
+      <ol class="steps"><li class="step"><span class="step-no">STEP 1</span><span class="step-title">Physician Review</span><p class="body-copy">You’re already pre-qualified. After checkout, a board-certified physician will review your information and begin the approval process.</p></li><li class="step"><span class="step-no">STEP 2</span><span class="step-title">Fast Prescription Approval</span><p class="body-copy">Most prescriptions are approved in less than 24 hours. If needed, same-day consultations with a licensed clinician are available — at no extra charge.</p></li><li class="step"><span class="step-no">STEP 3</span><span class="step-title">Medication Shipping</span><p class="body-copy">Once approved, your medication is prepared and shipped. You’ll receive tracking information within 2 business days, and your prescription will be on its way.</p></li><li class="step"><span class="step-no">STEP 4</span><span class="step-title">Monthly Refills</span><p class="body-copy">At the end of each month, you’ll fill out a quick refill form. We’ll send email and text updates with tracking information as your next shipment heads your way.</p></li><li class="step"><span class="step-no">STEP 5</span><span class="step-title">Unlimited Support</span><p class="body-copy">Questions about your progress, side effects or dosage? You have unlimited, 24/7 access to our care team and licensed clinicians — whenever you need us.</p></li></ol>
+    </section>
+    <div class="pill"><span>Your approval is reserved for</span><span class="pill-time">15:00</span></div>
+
+<section class="section">
+  <h2 class="h2">Choose your medication preference below:</h2>
+  <div class="packs">
+    <div class="pack is-selected">
+      <span class="badge badge-popular">MOST POPULAR</span>
+      <span class="pack-name">6 PACK</span>
+      <span class="pack-hours">215 hour coverage</span>
+    </div>
+    <div class="pack">
+      <span class="badge badge-value">BEST VALUE</span>
+      <span class="pack-name">12 PACK</span>
+      <span class="pack-hours">430 hour coverage</span>
+      <span class="pack-save">SAVE 33%</span>
+    </div>
+  </div>
+  <div class="prod">
+    <div class="prod-head">
+      <div class="prod-id">
+        <span class="tag">6 PACK</span>
+        <span class="prod-name">BRAEVON PRIME™</span>
+        <span class="prod-kind">ED Medication</span>
+      </div>
+      <div class="prod-rate"><span class="stars">★★★★★</span><span class="prod-count">25,000+ customers</span></div>
+    </div>
+    <div class="prod-shot">
+      <img class="prod-img" src="assets/pack-6.png" alt="BRAEVON 6 pack"/>
+      
+    </div>
+    <p class="prod-price"><span>Prescribed for only</span><span class="price-now">$99.00</span></p>
+    <ul class="prod-list"><li><span class="check">✓</span><span><b>Powerful 4-in-1</b> performance stack that targets desire (brain) and performance (body)</span></li><li><span class="check">✓</span><span><b>Free shipping:</b> discreet delivery</span></li><li><span class="check">✓</span><span><b>Price includes:</b> doctor consult, unlimited 1:1 medical support, written prescription, 4 weeks of medicine and free shipping</span></li></ul>
+  </div>
+</section>
+    <div class="trust">
+      <span class="trust-line">◎ HSA/FSA Eligible</span>
+      <span class="trust-line">🔒 Your data is protected by HIPAA</span>
+      <span class="trust-sub">All transactions are secured and encrypted.</span>
+    </div>
+
+<section class="form">
+  <h3 class="form-title">Shipping Information</h3>
+  <div class="field"><span class="field-label">Email</span><div class="input">you@email.com</div></div><div class="field"><span class="field-label">Full name</span><div class="input">First and last name</div></div><div class="field"><span class="field-label">Address line 1</span><div class="input">Street address</div></div><div class="field"><span class="field-label">Address line 2</span><div class="input">Apartment, suite (optional)</div></div><div class="field"><span class="field-label">City</span><div class="input">City</div></div>
+  <div class="field-row">
+    <div class="field"><span class="field-label">State</span><div class="input">Select State…</div></div>
+    <div class="field"><span class="field-label">ZIP code</span><div class="input">ZIP</div></div>
+  </div>
+  <div class="field"><span class="field-label">Phone number</span><div class="input">(555) 000-0000</div></div>
+  <div class="check-row"><span class="box"></span><span class="check-text">Billing is same as shipping information</span></div>
+</section>
+
+<section class="form">
+  <h3 class="form-title">Payment Method</h3>
+  <div class="pay-tabs">
+    <div class="pay-tab is-selected">Card</div>
+    <div class="pay-tab is-wallet">G Pay</div>
+    <div class="pay-tab is-wallet">Apple Pay</div>
+  </div>
+  <div class="field"><span class="field-label">Card number</span><div class="input">1234 1234 1234 1234</div></div>
+  <div class="field-row">
+    <div class="field"><span class="field-label">Expiry date</span><div class="input">MM / YY</div></div>
+    <div class="field"><span class="field-label">Security code</span><div class="input">CVC</div></div>
+  </div>
+  <div class="cta">Continue</div>
+  <div class="hold">
+    <p>When you check out, a temporary authorization hold is placed on your payment method — you are not charged.</p>
+    <span class="hold-toggle">Read more ⌄</span>
+  </div>
+</section>
+    <div class="guar">
+      <span class="guar-mark"></span>
+      <div class="guar-body">
+        <span class="row-title">Satisfaction Guarantee</span>
+        <p class="body-copy">If you don’t experience the full benefits of the BRAEVON Performance Program we’ll give you your money back. It’s that simple.</p>
+      </div>
+    </div>
+    <div class="research">
+      <span class="research-title">BACKED BY RESEARCH FROM</span>
+      <div class="logos">
+        <img src="assets/logos/mayo-clinic.svg" alt="Mayo Clinic"/>
+        <img src="assets/logos/stanford.svg" alt="Stanford Medicine"/>
+        <img src="assets/logos/webmd.svg" alt="WebMD"/>
+        <img src="assets/logos/harvard.svg" alt="Harvard University"/>
+        <img src="assets/logos/nih.svg" alt="National Institutes of Health"/>
+      </div>
+    </div>
+    <section class="section">
+      <h2 class="h2">The results speak for themselves!</h2>
+      <div class="quote"><div class="quote-head"><span class="quote-name">Ethan C.</span><span class="quote-verified">✓ Verified customer</span></div><p class="quote-title">“Feeling like my younger self again”</p><p class="body-copy">Honestly, I didn’t think anything would really help me, but Braevon proved me wrong. I feel like my younger self again, and my wife has noticed too.</p></div><div class="quote"><div class="quote-head"><span class="quote-name">Ryan M.</span><span class="quote-verified">✓ Verified customer</span></div><p class="quote-title">“The desire is back, not just the performance”</p><p class="body-copy">Incredible formula — not only does it work, but having the desire come back takes things to another level entirely.</p></div><div class="quote"><div class="quote-head"><span class="quote-name">Logan K.</span><span class="quote-verified">✓ Verified customer</span></div><p class="quote-title">“Nothing else compared to the combination”</p><p class="body-copy">I had tried other products, but nothing compares. The four medicines work together and the difference is hard to describe.</p></div>
+    </section>
+
+<section class="ready">
+  <span class="eyebrow">Are you ready?</span>
+  <h2 class="ready-h">It’s time for the life you deserve</h2>
+  <div class="rail">
+    <div class="rail-line"></div>
+    <div class="rail-body">
+      <p class="rail-clock">You’re approved for <b>15:00</b></p>
+      <p class="strip">Prescriptions start at just <b>$99.00</b> — no insurance needed</p>
+      <p class="rail-line-copy">The most effective ED programme is right here</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3 class="form-title">What’s included?</h3>
+    <ul class="incl-list">
+      <li><span class="check">✓</span><span><b>4-in-1 ED medication</b><br/>Cost of medication is included</span></li>
+      <li><span class="check">✓</span><span>No insurance necessary</span></li>
+      <li><span class="check">✓</span><span>Board-certified doctor review</span></li>
+      <li><span class="check">✓</span><span>1:1 physician guidance</span></li>
+    </ul>
+    <div class="summary">
+      <img class="summary-img" src="assets/pack-6.png" alt="BRAEVON 6 pack"/>
+      <div class="summary-body">
+        <span class="tag">6 PACK</span>
+        <span class="summary-name">BRAEVON PRIME™ prescribed for just</span>
+        <span class="summary-price"><span class="price-now">$99.00</span></span>
+      </div>
+    </div>
+    <p class="foot-note">Pay one month at a time. No contracts, cancel anytime. <b>Medication is included.</b></p>
+    <div class="cta">Checkout →</div>
+  </div>
+</section>
+    <div class="faq">
+      <h2 class="h2">Frequently asked questions</h2>
+      <div class="faq-row"><span>Does the price cover the medication and the doctor?</span><span>⌄</span></div><div class="faq-row"><span>Why choose BRAEVON over Hims or Roman?</span><span>⌄</span></div><div class="faq-row"><span>Will I be “up” for 36 hours straight?</span><span>⌄</span></div><div class="faq-row"><span>What if I’m not approved?</span><span>⌄</span></div>
+    </div>
+  </div>
+  <footer class="footer">
+    <img class="wordmark" src="assets/braevon-wordmark.svg" alt="BRAEVON"/>
+    <p>Direct-to-consumer telehealth biological optimization with licensed board-certified medical guidance.</p>
+    <p>support@braevon.com<br/>1317 Edgewater Dr, Suite 2177, Orlando, Florida 32804<br/>+1 (646) 204-3670</p>
+    <div class="footer-links">
+      <span>Our Medical Providers</span><span>Terms &amp; Conditions</span>
+      <span>Privacy &amp; Security Policy</span><span>Shipping, Cancellation &amp; Refund Policy</span>
+    </div>
+    <p>© 2026 BRAEVON LLC. All rights reserved.</p>
+  </footer>
+</section></div>
+<div class="frame-col"><h2 class="frame-name">02 — Checkout / 12 Pack selected</h2><p class="frame-note">Tapping 12 Pack moves the selected state and re-renders the product card, the SAVE 33% disc, the pack tag, the render and every price to $132.00.</p>
+<section class="frame" id="checkout-12-pack">
+
+<header class="masthead">
+  <img class="wordmark" src="assets/braevon-wordmark.svg" alt="BRAEVON"/>
+  <div class="rating"><span class="rating-text">Excellent 4.6</span><span class="stars">★★★★★</span></div>
+</header>
+  <div class="clock"><span>Sabbir’s approval is valid for</span><span class="clock-time">15:00</span></div>
+  <div class="page">
+    <h1 class="h1">Sabbir’s BRAEVON PRIME™ prescription plan approval!</h1>
+
+<section class="goals">
+  <div class="avatar"></div>
+  <div class="goals-body">
+    <p class="goals-title">YOUR GOALS</p>
+    <ul class="goals-list">
+      <li>Better erections</li>
+      <li>Improve stamina &amp; endurance</li>
+      <li>Longer duration &amp; satisfaction</li>
+    </ul>
+  </div>
+</section>
+    <div class="intro">
+      <p class="body-copy">You get <b>clinician-prescribed medication</b>, personalised dosing delivered discreetly to your door. Plus 1:1 physician guidance, and 24/7 Braevon support.</p>
+      <p class="body-copy">Your medication price never goes up — even when your dose increases.</p>
+    </div>
+    <img class="chart" src="assets/onset-chart.svg" alt="Onset and duration chart"/>
+
+<section class="card">
+  <div class="prog-head"><span class="row-mark">⚕</span><h2 class="prog-title">BRAEVON PRIME™</h2></div>
+  <div class="prog-body">
+    <div class="prog-copy">
+      <p class="body-copy">Based on your intake form, you are a good candidate for the <b>BRAEVON PRIME™ programme</b>.</p>
+      <p class="body-copy">This 4-in-1 stack is designed to prime desire (brain) and boost blood flow (body) in one sublingual dose.</p>
+    </div>
+    <img class="prog-img" src="assets/tablets.png" alt="Three BRAEVON PRIME tablets"/>
+  </div>
+  <div class="prob">
+    <p class="prob-copy">You have a <b>very high</b> chance of success with prescribed BRAEVON medication</p>
+    <div class="prob-fig"><span class="prob-pct">94%</span><span class="prob-label">VERY HIGH</span></div>
+  </div>
+</section>
+    <section class="section">
+      <h2 class="h2">The goals you will accomplish with your plan:</h2>
+      <div class="rows"><div class="row"><span class="row-mark">⚡</span><div class="row-body"><span class="row-title">Be Ready in Minutes</span><span class="row-sub">Results seen within 10–15 min</span></div></div><div class="row"><span class="row-mark">♡</span><div class="row-body"><span class="row-title">Feel Desire Again</span><span class="row-sub">Primes the brain’s arousal pathways</span></div></div><div class="row"><span class="row-mark">↗</span><div class="row-body"><span class="row-title">Boost Performance</span><span class="row-sub">Supports a strong blood-flow response</span></div></div><div class="row"><span class="row-mark">⏱</span><div class="row-body"><span class="row-title">Last Longer</span><span class="row-sub">Up to 36 hour performance window</span></div></div><div class="row"><span class="row-mark">★</span><div class="row-body"><span class="row-title">Increased Confidence</span><span class="row-sub">A 4-in-1 formula for a reliable experience</span></div></div></div>
+    </section>
+    <section class="section">
+      <h2 class="h2">What’s included:</h2>
+      <div class="incl-card">
+        <img class="incl-img" src="assets/pack-6.png" alt="BRAEVON pouch"/>
+        <div class="incl-body">
+          <div class="incl-head"><span class="incl-name">BRAEVON PRIME™</span><span class="tag">4-IN-1 STACK</span></div>
+          <ul class="molecules">
+            <li><b>Sildenafil:</b> For getting hard fast</li>
+            <li><b>Tadalafil:</b> For staying ready up to 36 hours</li>
+            <li><b>Vardenafil:</b> For a firmer, more reliable response</li>
+            <li><b>Apomorphine:</b> Ignites desire in the brain</li>
+          </ul>
+        </div>
+      </div>
+      <ul class="incl-list"><li><span class="check">✓</span><span>Medication, supplies and instructions</span></li><li><span class="check">✓</span><span>Cancel anytime, come back anytime</span></li><li><span class="check">✓</span><span>24/7 medical support</span></li><li><span class="check">✓</span><span>One-on-one access to our team of physicians</span></li><li><span class="check">✓</span><span>Free express shipping, discreetly packaged</span></li><li><span class="check">✓</span><span>Our promise to help you as much (or as little) as you want along the way</span></li></ul>
+    </section>
+    <section class="section">
+      <h2 class="h2">What happens next?</h2>
+      <ol class="steps"><li class="step"><span class="step-no">STEP 1</span><span class="step-title">Physician Review</span><p class="body-copy">You’re already pre-qualified. After checkout, a board-certified physician will review your information and begin the approval process.</p></li><li class="step"><span class="step-no">STEP 2</span><span class="step-title">Fast Prescription Approval</span><p class="body-copy">Most prescriptions are approved in less than 24 hours. If needed, same-day consultations with a licensed clinician are available — at no extra charge.</p></li><li class="step"><span class="step-no">STEP 3</span><span class="step-title">Medication Shipping</span><p class="body-copy">Once approved, your medication is prepared and shipped. You’ll receive tracking information within 2 business days, and your prescription will be on its way.</p></li><li class="step"><span class="step-no">STEP 4</span><span class="step-title">Monthly Refills</span><p class="body-copy">At the end of each month, you’ll fill out a quick refill form. We’ll send email and text updates with tracking information as your next shipment heads your way.</p></li><li class="step"><span class="step-no">STEP 5</span><span class="step-title">Unlimited Support</span><p class="body-copy">Questions about your progress, side effects or dosage? You have unlimited, 24/7 access to our care team and licensed clinicians — whenever you need us.</p></li></ol>
+    </section>
+    <div class="pill"><span>Your approval is reserved for</span><span class="pill-time">15:00</span></div>
+
+<section class="section">
+  <h2 class="h2">Choose your medication preference below:</h2>
+  <div class="packs">
+    <div class="pack">
+      <span class="badge badge-popular">MOST POPULAR</span>
+      <span class="pack-name">6 PACK</span>
+      <span class="pack-hours">215 hour coverage</span>
+    </div>
+    <div class="pack is-selected">
+      <span class="badge badge-value">BEST VALUE</span>
+      <span class="pack-name">12 PACK</span>
+      <span class="pack-hours">430 hour coverage</span>
+      <span class="pack-save">SAVE 33%</span>
+    </div>
+  </div>
+  <div class="prod">
+    <div class="prod-head">
+      <div class="prod-id">
+        <span class="tag">12 PACK</span>
+        <span class="prod-name">BRAEVON PRIME™</span>
+        <span class="prod-kind">ED Medication</span>
+      </div>
+      <div class="prod-rate"><span class="stars">★★★★★</span><span class="prod-count">25,000+ customers</span></div>
+    </div>
+    <div class="prod-shot">
+      <img class="prod-img" src="assets/pack-12.png" alt="BRAEVON 12 pack"/>
+      <div class="save-disc"><span>SAVE</span><span>33%</span></div>
+    </div>
+    <p class="prod-price"><span>Prescribed for only</span><span class="price-now">$132.00</span></p>
+    <ul class="prod-list"><li><span class="check">✓</span><span><b>Powerful 4-in-1</b> performance stack that targets desire (brain) and performance (body)</span></li><li><span class="check">✓</span><span><b>Free shipping:</b> discreet delivery</span></li><li><span class="check">✓</span><span><b>Price includes:</b> doctor consult, unlimited 1:1 medical support, written prescription, 4 weeks of medicine and free shipping</span></li></ul>
+  </div>
+</section>
+    <div class="trust">
+      <span class="trust-line">◎ HSA/FSA Eligible</span>
+      <span class="trust-line">🔒 Your data is protected by HIPAA</span>
+      <span class="trust-sub">All transactions are secured and encrypted.</span>
+    </div>
+
+<section class="form">
+  <h3 class="form-title">Shipping Information</h3>
+  <div class="field"><span class="field-label">Email</span><div class="input">you@email.com</div></div><div class="field"><span class="field-label">Full name</span><div class="input">First and last name</div></div><div class="field"><span class="field-label">Address line 1</span><div class="input">Street address</div></div><div class="field"><span class="field-label">Address line 2</span><div class="input">Apartment, suite (optional)</div></div><div class="field"><span class="field-label">City</span><div class="input">City</div></div>
+  <div class="field-row">
+    <div class="field"><span class="field-label">State</span><div class="input">Select State…</div></div>
+    <div class="field"><span class="field-label">ZIP code</span><div class="input">ZIP</div></div>
+  </div>
+  <div class="field"><span class="field-label">Phone number</span><div class="input">(555) 000-0000</div></div>
+  <div class="check-row"><span class="box"></span><span class="check-text">Billing is same as shipping information</span></div>
+</section>
+
+<section class="form">
+  <h3 class="form-title">Payment Method</h3>
+  <div class="pay-tabs">
+    <div class="pay-tab is-selected">Card</div>
+    <div class="pay-tab is-wallet">G Pay</div>
+    <div class="pay-tab is-wallet">Apple Pay</div>
+  </div>
+  <div class="field"><span class="field-label">Card number</span><div class="input">1234 1234 1234 1234</div></div>
+  <div class="field-row">
+    <div class="field"><span class="field-label">Expiry date</span><div class="input">MM / YY</div></div>
+    <div class="field"><span class="field-label">Security code</span><div class="input">CVC</div></div>
+  </div>
+  <div class="cta">Continue</div>
+  <div class="hold">
+    <p>When you check out, a temporary authorization hold is placed on your payment method — you are not charged.</p>
+    <span class="hold-toggle">Read more ⌄</span>
+  </div>
+</section>
+    <div class="guar">
+      <span class="guar-mark"></span>
+      <div class="guar-body">
+        <span class="row-title">Satisfaction Guarantee</span>
+        <p class="body-copy">If you don’t experience the full benefits of the BRAEVON Performance Program we’ll give you your money back. It’s that simple.</p>
+      </div>
+    </div>
+    <div class="research">
+      <span class="research-title">BACKED BY RESEARCH FROM</span>
+      <div class="logos">
+        <img src="assets/logos/mayo-clinic.svg" alt="Mayo Clinic"/>
+        <img src="assets/logos/stanford.svg" alt="Stanford Medicine"/>
+        <img src="assets/logos/webmd.svg" alt="WebMD"/>
+        <img src="assets/logos/harvard.svg" alt="Harvard University"/>
+        <img src="assets/logos/nih.svg" alt="National Institutes of Health"/>
+      </div>
+    </div>
+    <section class="section">
+      <h2 class="h2">The results speak for themselves!</h2>
+      <div class="quote"><div class="quote-head"><span class="quote-name">Ethan C.</span><span class="quote-verified">✓ Verified customer</span></div><p class="quote-title">“Feeling like my younger self again”</p><p class="body-copy">Honestly, I didn’t think anything would really help me, but Braevon proved me wrong. I feel like my younger self again, and my wife has noticed too.</p></div><div class="quote"><div class="quote-head"><span class="quote-name">Ryan M.</span><span class="quote-verified">✓ Verified customer</span></div><p class="quote-title">“The desire is back, not just the performance”</p><p class="body-copy">Incredible formula — not only does it work, but having the desire come back takes things to another level entirely.</p></div><div class="quote"><div class="quote-head"><span class="quote-name">Logan K.</span><span class="quote-verified">✓ Verified customer</span></div><p class="quote-title">“Nothing else compared to the combination”</p><p class="body-copy">I had tried other products, but nothing compares. The four medicines work together and the difference is hard to describe.</p></div>
+    </section>
+
+<section class="ready">
+  <span class="eyebrow">Are you ready?</span>
+  <h2 class="ready-h">It’s time for the life you deserve</h2>
+  <div class="rail">
+    <div class="rail-line"></div>
+    <div class="rail-body">
+      <p class="rail-clock">You’re approved for <b>15:00</b></p>
+      <p class="strip">Prescriptions start at just <b>$132.00</b> — no insurance needed</p>
+      <p class="rail-line-copy">The most effective ED programme is right here</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3 class="form-title">What’s included?</h3>
+    <ul class="incl-list">
+      <li><span class="check">✓</span><span><b>4-in-1 ED medication</b><br/>Cost of medication is included</span></li>
+      <li><span class="check">✓</span><span>No insurance necessary</span></li>
+      <li><span class="check">✓</span><span>Board-certified doctor review</span></li>
+      <li><span class="check">✓</span><span>1:1 physician guidance</span></li>
+    </ul>
+    <div class="summary">
+      <img class="summary-img" src="assets/pack-12.png" alt="BRAEVON 12 pack"/>
+      <div class="summary-body">
+        <span class="tag">12 PACK</span>
+        <span class="summary-name">BRAEVON PRIME™ prescribed for just</span>
+        <span class="summary-price"><span class="price-now">$132.00</span></span>
+      </div>
+    </div>
+    <p class="foot-note">Pay one month at a time. No contracts, cancel anytime. <b>Medication is included.</b></p>
+    <div class="cta">Checkout →</div>
+  </div>
+</section>
+    <div class="faq">
+      <h2 class="h2">Frequently asked questions</h2>
+      <div class="faq-row"><span>Does the price cover the medication and the doctor?</span><span>⌄</span></div><div class="faq-row"><span>Why choose BRAEVON over Hims or Roman?</span><span>⌄</span></div><div class="faq-row"><span>Will I be “up” for 36 hours straight?</span><span>⌄</span></div><div class="faq-row"><span>What if I’m not approved?</span><span>⌄</span></div>
+    </div>
+  </div>
+  <footer class="footer">
+    <img class="wordmark" src="assets/braevon-wordmark.svg" alt="BRAEVON"/>
+    <p>Direct-to-consumer telehealth biological optimization with licensed board-certified medical guidance.</p>
+    <p>support@braevon.com<br/>1317 Edgewater Dr, Suite 2177, Orlando, Florida 32804<br/>+1 (646) 204-3670</p>
+    <div class="footer-links">
+      <span>Our Medical Providers</span><span>Terms &amp; Conditions</span>
+      <span>Privacy &amp; Security Policy</span><span>Shipping, Cancellation &amp; Refund Policy</span>
+    </div>
+    <p>© 2026 BRAEVON LLC. All rights reserved.</p>
+  </footer>
+</section></div>
+<div class="frame-col"><h2 class="frame-name">03 — Offer popup (overlay)</h2><p class="frame-note">Appears 10s after the page loads, once per visit. Sits above the page on a 55% ink scrim; the page behind does not scroll or move.</p>
+<section class="frame" id="offer-popup">
+  <div class="scrim">
+    <div class="offer">
+      <p class="offer-title">Take <span>25% off</span></p>
+      <p class="offer-copy">You’re clicks away from a better sex life.<br/>Let’s do this.</p>
+      <div class="cta">Claim My Offer</div>
+      <p class="offer-small">*First-time customers only</p>
+    </div>
+  </div>
+</section></div>
+<div class="frame-col"><h2 class="frame-name">04 — Discount applied (25% off)</h2><p class="frame-note">After Claim My Offer: every price shows the original struck through beside the new one, the reader stays exactly where they were, and the popup never returns.</p>
+<section class="frame" id="checkout-discount-applied">
+
+<header class="masthead">
+  <img class="wordmark" src="assets/braevon-wordmark.svg" alt="BRAEVON"/>
+  <div class="rating"><span class="rating-text">Excellent 4.6</span><span class="stars">★★★★★</span></div>
+</header>
+  <div class="clock"><span>Sabbir’s approval is valid for</span><span class="clock-time">15:00</span></div>
+  <div class="page">
+    <h1 class="h1">Sabbir’s BRAEVON PRIME™ prescription plan approval!</h1>
+
+<section class="goals">
+  <div class="avatar"></div>
+  <div class="goals-body">
+    <p class="goals-title">YOUR GOALS</p>
+    <ul class="goals-list">
+      <li>Better erections</li>
+      <li>Improve stamina &amp; endurance</li>
+      <li>Longer duration &amp; satisfaction</li>
+    </ul>
+  </div>
+</section>
+    <div class="intro">
+      <p class="body-copy">You get <b>clinician-prescribed medication</b>, personalised dosing delivered discreetly to your door. Plus 1:1 physician guidance, and 24/7 Braevon support.</p>
+      <p class="body-copy">Your medication price never goes up — even when your dose increases.</p>
+    </div>
+    <img class="chart" src="assets/onset-chart.svg" alt="Onset and duration chart"/>
+
+<section class="card">
+  <div class="prog-head"><span class="row-mark">⚕</span><h2 class="prog-title">BRAEVON PRIME™</h2></div>
+  <div class="prog-body">
+    <div class="prog-copy">
+      <p class="body-copy">Based on your intake form, you are a good candidate for the <b>BRAEVON PRIME™ programme</b>.</p>
+      <p class="body-copy">This 4-in-1 stack is designed to prime desire (brain) and boost blood flow (body) in one sublingual dose.</p>
+    </div>
+    <img class="prog-img" src="assets/tablets.png" alt="Three BRAEVON PRIME tablets"/>
+  </div>
+  <div class="prob">
+    <p class="prob-copy">You have a <b>very high</b> chance of success with prescribed BRAEVON medication</p>
+    <div class="prob-fig"><span class="prob-pct">94%</span><span class="prob-label">VERY HIGH</span></div>
+  </div>
+</section>
+    <section class="section">
+      <h2 class="h2">The goals you will accomplish with your plan:</h2>
+      <div class="rows"><div class="row"><span class="row-mark">⚡</span><div class="row-body"><span class="row-title">Be Ready in Minutes</span><span class="row-sub">Results seen within 10–15 min</span></div></div><div class="row"><span class="row-mark">♡</span><div class="row-body"><span class="row-title">Feel Desire Again</span><span class="row-sub">Primes the brain’s arousal pathways</span></div></div><div class="row"><span class="row-mark">↗</span><div class="row-body"><span class="row-title">Boost Performance</span><span class="row-sub">Supports a strong blood-flow response</span></div></div><div class="row"><span class="row-mark">⏱</span><div class="row-body"><span class="row-title">Last Longer</span><span class="row-sub">Up to 36 hour performance window</span></div></div><div class="row"><span class="row-mark">★</span><div class="row-body"><span class="row-title">Increased Confidence</span><span class="row-sub">A 4-in-1 formula for a reliable experience</span></div></div></div>
+    </section>
+    <section class="section">
+      <h2 class="h2">What’s included:</h2>
+      <div class="incl-card">
+        <img class="incl-img" src="assets/pack-6.png" alt="BRAEVON pouch"/>
+        <div class="incl-body">
+          <div class="incl-head"><span class="incl-name">BRAEVON PRIME™</span><span class="tag">4-IN-1 STACK</span></div>
+          <ul class="molecules">
+            <li><b>Sildenafil:</b> For getting hard fast</li>
+            <li><b>Tadalafil:</b> For staying ready up to 36 hours</li>
+            <li><b>Vardenafil:</b> For a firmer, more reliable response</li>
+            <li><b>Apomorphine:</b> Ignites desire in the brain</li>
+          </ul>
+        </div>
+      </div>
+      <ul class="incl-list"><li><span class="check">✓</span><span>Medication, supplies and instructions</span></li><li><span class="check">✓</span><span>Cancel anytime, come back anytime</span></li><li><span class="check">✓</span><span>24/7 medical support</span></li><li><span class="check">✓</span><span>One-on-one access to our team of physicians</span></li><li><span class="check">✓</span><span>Free express shipping, discreetly packaged</span></li><li><span class="check">✓</span><span>Our promise to help you as much (or as little) as you want along the way</span></li></ul>
+    </section>
+    <section class="section">
+      <h2 class="h2">What happens next?</h2>
+      <ol class="steps"><li class="step"><span class="step-no">STEP 1</span><span class="step-title">Physician Review</span><p class="body-copy">You’re already pre-qualified. After checkout, a board-certified physician will review your information and begin the approval process.</p></li><li class="step"><span class="step-no">STEP 2</span><span class="step-title">Fast Prescription Approval</span><p class="body-copy">Most prescriptions are approved in less than 24 hours. If needed, same-day consultations with a licensed clinician are available — at no extra charge.</p></li><li class="step"><span class="step-no">STEP 3</span><span class="step-title">Medication Shipping</span><p class="body-copy">Once approved, your medication is prepared and shipped. You’ll receive tracking information within 2 business days, and your prescription will be on its way.</p></li><li class="step"><span class="step-no">STEP 4</span><span class="step-title">Monthly Refills</span><p class="body-copy">At the end of each month, you’ll fill out a quick refill form. We’ll send email and text updates with tracking information as your next shipment heads your way.</p></li><li class="step"><span class="step-no">STEP 5</span><span class="step-title">Unlimited Support</span><p class="body-copy">Questions about your progress, side effects or dosage? You have unlimited, 24/7 access to our care team and licensed clinicians — whenever you need us.</p></li></ol>
+    </section>
+    <div class="pill"><span>Your approval is reserved for</span><span class="pill-time">15:00</span></div>
+
+<section class="section">
+  <h2 class="h2">Choose your medication preference below:</h2>
+  <div class="packs">
+    <div class="pack is-selected">
+      <span class="badge badge-popular">MOST POPULAR</span>
+      <span class="pack-name">6 PACK</span>
+      <span class="pack-hours">215 hour coverage</span>
+    </div>
+    <div class="pack">
+      <span class="badge badge-value">BEST VALUE</span>
+      <span class="pack-name">12 PACK</span>
+      <span class="pack-hours">430 hour coverage</span>
+      <span class="pack-save">SAVE 33%</span>
+    </div>
+  </div>
+  <div class="prod">
+    <div class="prod-head">
+      <div class="prod-id">
+        <span class="tag">6 PACK</span>
+        <span class="prod-name">BRAEVON PRIME™</span>
+        <span class="prod-kind">ED Medication</span>
+      </div>
+      <div class="prod-rate"><span class="stars">★★★★★</span><span class="prod-count">25,000+ customers</span></div>
+    </div>
+    <div class="prod-shot">
+      <img class="prod-img" src="assets/pack-6.png" alt="BRAEVON 6 pack"/>
+      
+    </div>
+    <p class="prod-price"><span>Prescribed for only</span><span class="price-was">$99.00</span><span class="price-now">$74.25</span></p>
+    <ul class="prod-list"><li><span class="check">✓</span><span><b>Powerful 4-in-1</b> performance stack that targets desire (brain) and performance (body)</span></li><li><span class="check">✓</span><span><b>Free shipping:</b> discreet delivery</span></li><li><span class="check">✓</span><span><b>Price includes:</b> doctor consult, unlimited 1:1 medical support, written prescription, 4 weeks of medicine and free shipping</span></li></ul>
+  </div>
+</section>
+    <div class="trust">
+      <span class="trust-line">◎ HSA/FSA Eligible</span>
+      <span class="trust-line">🔒 Your data is protected by HIPAA</span>
+      <span class="trust-sub">All transactions are secured and encrypted.</span>
+    </div>
+
+<section class="form">
+  <h3 class="form-title">Shipping Information</h3>
+  <div class="field"><span class="field-label">Email</span><div class="input">you@email.com</div></div><div class="field"><span class="field-label">Full name</span><div class="input">First and last name</div></div><div class="field"><span class="field-label">Address line 1</span><div class="input">Street address</div></div><div class="field"><span class="field-label">Address line 2</span><div class="input">Apartment, suite (optional)</div></div><div class="field"><span class="field-label">City</span><div class="input">City</div></div>
+  <div class="field-row">
+    <div class="field"><span class="field-label">State</span><div class="input">Select State…</div></div>
+    <div class="field"><span class="field-label">ZIP code</span><div class="input">ZIP</div></div>
+  </div>
+  <div class="field"><span class="field-label">Phone number</span><div class="input">(555) 000-0000</div></div>
+  <div class="check-row"><span class="box"></span><span class="check-text">Billing is same as shipping information</span></div>
+</section>
+
+<section class="form">
+  <h3 class="form-title">Payment Method</h3>
+  <div class="pay-tabs">
+    <div class="pay-tab is-selected">Card</div>
+    <div class="pay-tab is-wallet">G Pay</div>
+    <div class="pay-tab is-wallet">Apple Pay</div>
+  </div>
+  <div class="field"><span class="field-label">Card number</span><div class="input">1234 1234 1234 1234</div></div>
+  <div class="field-row">
+    <div class="field"><span class="field-label">Expiry date</span><div class="input">MM / YY</div></div>
+    <div class="field"><span class="field-label">Security code</span><div class="input">CVC</div></div>
+  </div>
+  <div class="cta">Continue</div>
+  <div class="hold">
+    <p>When you check out, a temporary authorization hold is placed on your payment method — you are not charged.</p>
+    <p>Your payment is only processed if a licensed healthcare provider reviews your medical information,
+       determines treatment is appropriate for you, and issues a valid prescription. If no prescription is
+       issued, the payment is never captured and the hold is released (timing depends on your bank or card
+       issuer). No medication is dispensed or shipped without a valid prescription.</p>
+    <span class="hold-toggle">Read less ⌃</span>
+  </div>
+</section>
+    <div class="guar">
+      <span class="guar-mark"></span>
+      <div class="guar-body">
+        <span class="row-title">Satisfaction Guarantee</span>
+        <p class="body-copy">If you don’t experience the full benefits of the BRAEVON Performance Program we’ll give you your money back. It’s that simple.</p>
+      </div>
+    </div>
+    <div class="research">
+      <span class="research-title">BACKED BY RESEARCH FROM</span>
+      <div class="logos">
+        <img src="assets/logos/mayo-clinic.svg" alt="Mayo Clinic"/>
+        <img src="assets/logos/stanford.svg" alt="Stanford Medicine"/>
+        <img src="assets/logos/webmd.svg" alt="WebMD"/>
+        <img src="assets/logos/harvard.svg" alt="Harvard University"/>
+        <img src="assets/logos/nih.svg" alt="National Institutes of Health"/>
+      </div>
+    </div>
+    <section class="section">
+      <h2 class="h2">The results speak for themselves!</h2>
+      <div class="quote"><div class="quote-head"><span class="quote-name">Ethan C.</span><span class="quote-verified">✓ Verified customer</span></div><p class="quote-title">“Feeling like my younger self again”</p><p class="body-copy">Honestly, I didn’t think anything would really help me, but Braevon proved me wrong. I feel like my younger self again, and my wife has noticed too.</p></div><div class="quote"><div class="quote-head"><span class="quote-name">Ryan M.</span><span class="quote-verified">✓ Verified customer</span></div><p class="quote-title">“The desire is back, not just the performance”</p><p class="body-copy">Incredible formula — not only does it work, but having the desire come back takes things to another level entirely.</p></div><div class="quote"><div class="quote-head"><span class="quote-name">Logan K.</span><span class="quote-verified">✓ Verified customer</span></div><p class="quote-title">“Nothing else compared to the combination”</p><p class="body-copy">I had tried other products, but nothing compares. The four medicines work together and the difference is hard to describe.</p></div>
+    </section>
+
+<section class="ready">
+  <span class="eyebrow">Are you ready?</span>
+  <h2 class="ready-h">It’s time for the life you deserve</h2>
+  <div class="rail">
+    <div class="rail-line"></div>
+    <div class="rail-body">
+      <p class="rail-clock">You’re approved for <b>15:00</b></p>
+      <p class="strip">Prescriptions start at just <b>$74.25</b> — no insurance needed</p>
+      <p class="rail-line-copy">The most effective ED programme is right here</p>
+    </div>
+  </div>
+  <div class="card">
+    <h3 class="form-title">What’s included?</h3>
+    <ul class="incl-list">
+      <li><span class="check">✓</span><span><b>4-in-1 ED medication</b><br/>Cost of medication is included</span></li>
+      <li><span class="check">✓</span><span>No insurance necessary</span></li>
+      <li><span class="check">✓</span><span>Board-certified doctor review</span></li>
+      <li><span class="check">✓</span><span>1:1 physician guidance</span></li>
+    </ul>
+    <div class="summary">
+      <img class="summary-img" src="assets/pack-6.png" alt="BRAEVON 6 pack"/>
+      <div class="summary-body">
+        <span class="tag">6 PACK</span>
+        <span class="summary-name">BRAEVON PRIME™ prescribed for just</span>
+        <span class="summary-price"><span class="price-was">$99.00</span><span class="price-now">$74.25</span></span>
+      </div>
+    </div>
+    <p class="foot-note">Pay one month at a time. No contracts, cancel anytime. <b>Medication is included.</b></p>
+    <div class="cta">Checkout →</div>
+  </div>
+</section>
+    <div class="faq">
+      <h2 class="h2">Frequently asked questions</h2>
+      <div class="faq-row"><span>Does the price cover the medication and the doctor?</span><span>⌄</span></div><div class="faq-row"><span>Why choose BRAEVON over Hims or Roman?</span><span>⌄</span></div><div class="faq-row"><span>Will I be “up” for 36 hours straight?</span><span>⌄</span></div><div class="faq-row"><span>What if I’m not approved?</span><span>⌄</span></div>
+    </div>
+  </div>
+  <footer class="footer">
+    <img class="wordmark" src="assets/braevon-wordmark.svg" alt="BRAEVON"/>
+    <p>Direct-to-consumer telehealth biological optimization with licensed board-certified medical guidance.</p>
+    <p>support@braevon.com<br/>1317 Edgewater Dr, Suite 2177, Orlando, Florida 32804<br/>+1 (646) 204-3670</p>
+    <div class="footer-links">
+      <span>Our Medical Providers</span><span>Terms &amp; Conditions</span>
+      <span>Privacy &amp; Security Policy</span><span>Shipping, Cancellation &amp; Refund Policy</span>
+    </div>
+    <p>© 2026 BRAEVON LLC. All rights reserved.</p>
+  </footer>
+</section></div>
+</main>
+</body>
+</html>

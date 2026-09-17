@@ -1580,7 +1580,7 @@ body:not(.frames){overflow-x:clip}
   padding-left:0;padding-right:0}
 /* The render is a cut-out PNG, so its lift is a drop-shadow filter and never a
    box-shadow - a box-shadow paints a rectangle behind the transparency. */
-.ck-ready-pack img{flex:none;width:auto;height:126px;max-width:130px;object-fit:contain;
+.ck-ready-pack img{flex:none;width:auto;height:170px;max-width:180px;object-fit:contain;
   filter:drop-shadow(0 12px 22px rgba(16,20,34,.18))}
 /* 17px, down from 19 on 2026-09-09: the line sets on two rather than three
    beside the render, and it no longer outweighs the .ck-h2 above it. The price
@@ -1672,7 +1672,7 @@ body:not(.frames){overflow-x:clip}
   .ck-prog-body img{width:88px}
   .ck-ready-packs{padding:18px}
   .ck-ready-pack{gap:14px}
-  .ck-ready-pack img{height:100px;max-width:100px}
+  .ck-ready-pack img{height:140px;max-width:140px}
   .ck-ready-line{font-size:19px}
 }
 
@@ -1795,7 +1795,10 @@ body.frames .track i{animation:none}
 /* Order summary card on phones: the pack render as large as the text beside it allows. */
 @media (max-width:480px){
   .ck-ready-pack{gap:12px}
-  .ck-ready-pack img{height:auto;width:48%;max-width:190px;max-height:200px;object-fit:contain}
+  .ck-ready-pack img{height:auto;width:62%;max-width:230px;max-height:250px;object-fit:contain}
+  /* The name sets a step smaller beside the bigger render so it still holds
+     three lines rather than four (2026-09-18). */
+  .ck-ready-pack b{font-size:15px}
 }
 @media (max-width:379px){ .ck-h1{font-size:23px} }
 /* Price line a little smaller on phones. */
@@ -2730,6 +2733,6 @@ html:root .ck-ready-strip b{color:#4ADE80}
   show(0);
 })();
 </script>
-<script src="flow.js?v=202609172330"></script>
+<script src="flow.js?v=202609180022"></script>
 </body>
 </html>

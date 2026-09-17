@@ -174,9 +174,8 @@
         store.discount = 25; save();
         renderDiscount();
         close();
-        /* Take them straight to the product card showing the new price. */
-        var card = document.querySelector(".ck-prod");
-        if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
+        /* The reader stays where they were: prices update in place rather than
+           the page jumping to the product card (2026-09-18). */
       }
     });
     var claim = wrap.querySelector(".ck-offer-claim");
