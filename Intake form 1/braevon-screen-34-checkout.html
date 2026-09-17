@@ -1717,10 +1717,13 @@ body.frames .track i{animation:none}
 /* BEST VALUE badge: a light blue tone with black type. */
 .ck-pack em:not(.hot){background:#9BD4F5;color:#000}
 /* Wallet marks: the multicolour Google "G" and the Apple logo, each with "Pay". */
-.ck-pm-gpay{gap:3px;font-size:16px;font-weight:500;color:#5F6368;letter-spacing:0}
-.ck-pm-gpay svg{width:16px;height:16px}
-.ck-pm-applepay{gap:1px;font-size:17px;font-weight:600;color:#000;letter-spacing:-.01em}
-.ck-pm-applepay svg{width:17px;height:17px;margin-top:-3px}
+/* Apple Pay / Google Pay marks as the standard black wallet buttons (AG1 reference). */
+.ck-pm-gpay,.ck-pm-applepay{background:#000;color:#fff;border-radius:7px;height:28px;padding:0 11px;font-size:16px;font-weight:500;letter-spacing:-.01em;line-height:1}
+.ck-pm-gpay{gap:4px}
+.ck-pm-gpay svg{width:15px;height:15px}
+.ck-pm-applepay{gap:2px;font-weight:600}
+.ck-pm-applepay svg{width:15px;height:15px;margin-top:-2px}
+@media (max-width:379px){ .ck-pm-gpay,.ck-pm-applepay{padding:0 8px;font-size:14px} }
 /* Packaging render in the BRAEVON 4-in-1 card, as large as the text beside it allows. */
 .ck-prog-body{gap:14px}
 .ck-prog-body img{width:44%;max-width:200px}
