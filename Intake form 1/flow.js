@@ -77,6 +77,13 @@
   if (isCheckout) {
     document.addEventListener("click", function (e) {
       if (e.target.closest(".cta-next")) {
+        /* "Checkout" takes the reader up to the payment section on this page. */
+        e.stopPropagation(); e.preventDefault();
+        var pay = document.querySelector("[data-pay-group]");
+        var form = pay && pay.closest(".ck-form");
+        if (form) form.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else if (e.target.closest(".ck-continue")) {
+        /* The payment form's Continue completes checkout and moves on. */
         e.stopPropagation(); e.preventDefault();
         next();
       } else if (e.target.closest(".back-btn")) {
