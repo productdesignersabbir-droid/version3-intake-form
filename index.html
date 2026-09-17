@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Braevon Intake Flow</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<style>
+:root{--bg:#E7EAED;--bar:#FFFFFF;--ink:#171D2C;--muted:#4B5568;--line:#DEE2EA;--accent:#E6430D}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11141B;--bar:#1A1F29;--ink:#EEF0F4;--muted:#A3AABB;--line:#2C3342}}
+:root[data-theme="dark"]{--bg:#11141B;--bar:#1A1F29;--ink:#EEF0F4;--muted:#A3AABB;--line:#2C3342}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font:14px/1.4 system-ui,-apple-system,sans-serif;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--bar);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.bar strong{font-size:15px}
+button,select{font:inherit;color:var(--ink);background:var(--bar);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
+button:disabled{opacity:.4;cursor:default}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+select{max-width:100%;min-width:0;flex:1 1 220px}
+.count{color:var(--muted);margin-left:auto;font-variant-numeric:tabular-nums}
+iframe{flex:1;width:100%;border:0;background:#fff}
+</style>
+</head>
+<body>
+<div class="bar">
+  <strong>Braevon Intake</strong>
+  <button id="prev" aria-label="Previous screen">← Prev</button>
+  <select id="pick" aria-label="Jump to screen"></select>
+  <button id="next" class="primary" aria-label="Next screen">Next →</button>
+  <span class="count" id="count"></span>
+</div>
+<iframe id="view" title="Intake screen"></iframe>
+<script>
+const screens = ["01-goals","02-social-proof-92","03-testimonials","04-eligibility","05-state-availability","06-doctor-intro","07-erection-confidence","08-morning-erections","09-performance-factors","10-prior-ed-medication","11-treatment-side-effects-conditional","12-last-use-conditional","13-physical-exam","14-conditions-surgeries","15-current-medications","16-allergies","17-medicines","18-recreational-drugs","19-diagnoses","20-curve-peyronie-s","21-tight-foreskin","22-conditions","23-cardiovascular-symptoms","24-cardiovascular-risk-factors","25-blood-pressure","26-other-health-concerns","27-anything-else","28-patient-info","29-consent","30-processing-product-reveal","31-onset-chart","32-preference-stat","33-approval","34-checkout","35-upsell","36-order-confirmed"];
+const $ = id => document.getElementById(id);
+const label = s => s.slice(0,2) + " · " + s.slice(3).replace(/-/g," ").replace(/\b\w/g,c=>c.toUpperCase());
+screens.forEach((s,i)=>$("pick").add(new Option(label(s), i)));
+let i = 0;
+function show(n){
+  i = Math.max(0, Math.min(screens.length-1, n));
+  $("view").src = "Intake%20form%201/braevon-screen-" + screens[i] + ".html";
+  $("pick").value = i;
+  $("prev").disabled = i === 0;
+  $("next").disabled = i === screens.length-1;
+  $("count").textContent = (i+1) + " / " + screens.length;
+  history.replaceState(null, "", "#" + (i+1));
+}
+$("prev").onclick = () => show(i-1);
+$("next").onclick = () => show(i+1);
+$("pick").onchange = e => show(+e.target.value);
+document.addEventListener("keydown", e => {
+  if (e.target.tagName === "SELECT") return;
+  if (e.key === "ArrowRight") show(i+1);
+  if (e.key === "ArrowLeft") show(i-1);
+});
+show((parseInt(location.hash.slice(1)) || 1) - 1);
+</script>
+</body>
+</html>
