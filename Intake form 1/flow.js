@@ -106,7 +106,7 @@
        in the checkout page). Delete once an option is chosen. */
     function colorOptions() {
       if (document.querySelector(".opt-bar")) return;
-      var swatch = { 1: "#084734", 2: "#171D2C", 3: "#2A56D0" };
+      var swatch = { 1: "#084734", 2: "#171D2C", 3: "#EA580C" };
       var bar = document.createElement("div");
       bar.className = "opt-bar";
       [1, 2, 3].forEach(function (n) {
