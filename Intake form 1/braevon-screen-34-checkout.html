@@ -1728,6 +1728,14 @@ body.frames .track i{animation:none}
 .ck-shot-save{position:absolute;top:-26px;right:-26px;z-index:1;width:124px;height:124px;border-radius:50%;box-sizing:border-box;padding:26px 26px 0 0;background:#9BD4F5;color:#000;display:grid;place-items:center;text-align:center;font-size:16px;font-weight:800;line-height:1.05;letter-spacing:.01em}
 .ck-shot-save[hidden]{display:none}
 @media (max-width:420px){ .ck-shot-save{top:-22px;right:-22px;width:100px;height:100px;padding:22px 22px 0 0;font-size:13px} }
+/* Phones: "BRAEVON PRIME™" is too long to share a row with the rating, so the
+   rating drops under the title as one line - stars, then the customer count. */
+@media (max-width:480px){
+  .ck-prod-head{flex-direction:column;align-items:stretch;gap:12px}
+  .ck-prod-rate{display:flex;align-items:center;gap:8px;text-align:left}
+  .ck-prod-rate .stars{justify-content:flex-start}
+  .ck-prod-rate > span:not(.stars){margin-top:0}
+}
 @media (max-width:379px){ .ck-h1{font-size:23px} }
 /* Price line a little smaller on phones. */
 @media (max-width:480px){
