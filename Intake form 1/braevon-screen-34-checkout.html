@@ -1709,6 +1709,11 @@ body.frames .track i{animation:none}
 .ck-clock{background:#E6F7EE;color:var(--green-ink)}
 .ck-clock b{color:var(--green-ink)}
 @media (max-width:379px){ .ck-h1{font-size:23px} }
+/* Price line a little smaller on phones. */
+@media (max-width:480px){
+  .ck-prod-price{font-size:18px}
+  .ck-prod-price b{font-size:22px;text-decoration-thickness:2px;text-underline-offset:4px}
+}
 @media (max-width:420px){
   .ck-goals{padding:18px 14px;gap:12px}
   .ck-goals li{font-size:14px;white-space:nowrap}
