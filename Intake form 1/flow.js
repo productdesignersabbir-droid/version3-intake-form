@@ -16,7 +16,7 @@
     "23-cardiovascular-symptoms", "24-cardiovascular-risk-factors",
     "25-blood-pressure", "26-other-health-concerns", "27-anything-else",
     "28-patient-info", "29-consent", "30-processing-product-reveal",
-    "31-onset-chart", "32-preference-stat", "33-approval", "34-checkout",
+    "31-onset-chart", "32-preference-stat", "33-medical-review", "34-checkout",
     "35-upsell", "36-order-confirmed"
   ];
   /* Screens that only appear for certain answers: number -> [group, values]. */
@@ -243,6 +243,14 @@
     });
     $$("[data-state-name]").forEach(function (e) {
       if (store.fields.state) e.textContent = store.fields.state;
+    });
+    /* The medical review reads back earlier answers: each [data-echo] names an
+       answer group and carries its value -> label map in data-labels. */
+    $$("[data-echo]").forEach(function (e) {
+      var picked = answers[e.dataset.echo] || [], labels = {};
+      try { labels = JSON.parse(e.dataset.labels || "{}"); } catch (_) {}
+      var text = picked.map(function (v) { return labels[v] || v; }).join(", ");
+      if (text) e.textContent = text;
     });
     save();
   }
