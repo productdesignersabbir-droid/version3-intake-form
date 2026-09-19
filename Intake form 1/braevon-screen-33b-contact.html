@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Braevon &mdash; Recreational drugs</title>
+<title>Braevon &mdash; Contact</title>
 <meta name="color-scheme" content="light only"/>
 <style id="light-only">:root{color-scheme:light only}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -4426,10 +4426,55 @@
   body.frames .frame-grid > div, body.frames .frame { width: auto; max-width: none; border: 0; background: var(--page); }
   body.frames .frame .stage { min-height: 0; }
 </style>
+<style id="contact">
+/* ------------------------------------------------------------ contact
+   Screen 33b, between the medical review and the checkout (2026-09-19). It is
+   v2's submission step (Intake form 2 Braevon/v2, step 47): the reader's first
+   name leads the question in the accent, then email, phone and the terms box,
+   and "Check Eligibility" - the client's label for it. Email and phone are the
+   ids screen 28 already collects, so they arrive filled in. */
+/* White, as the checkout is - not the grey the question screens sit on. */
+body.frames, body.frames .frame, body.frames .frame-grid > div { background: #fff; }
+.name-echo { color: var(--accent); }
+/* Type and form styles are the checkout's own (2026-09-19, at the client's
+   word): the question is its section title (.ck-h2.big), the line under it its
+   .ck-lead, the fields its shipping form, the box its .ck-check and the button
+   its Continue. Measured off the live checkout and set here literally, so
+   neither page drags the other if one moves. */
+.ct .qhead { font-size: 27px; line-height: 1.2; font-weight: 600; letter-spacing: -.01em;
+  color: var(--ink); margin: 0; }
+.ct p.sub { margin: 10px 0 0; font-size: 16px; line-height: 1.45; color: var(--muted); }
+.ct .fields { margin: 24px 0 0; gap: 14px; }
+.ct .field label { font-size: 14px; font-weight: 400; line-height: 1.45; color: var(--muted); }
+.ct .field input { height: 44px; min-height: 44px; padding: 0 12px; font-size: 16px; font-weight: 400;
+  color: var(--ink); background: #fff; border: 1px solid var(--border); border-radius: 8px;
+  box-shadow: none; }
+.ct .field input::placeholder { color: var(--faint); }
+.ct .consent { display: flex; align-items: flex-start; gap: 8px; margin: 20px 0 0; padding: 0;
+  background: none; border: 0; box-shadow: none; cursor: pointer; }
+.ct .consent .box { flex: none; width: 16px; height: 16px; margin-top: 2px; border-radius: 3px;
+  border: 1px solid #767676; background: #fff; display: grid; place-items: center; }
+.ct .consent.on .box { background: var(--accent); border-color: var(--accent); }
+.ct .consent.on .box::after { content: ""; width: 4px; height: 8px; margin-top: -2px;
+  border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.ct .consent .box::before { display: none; }
+.ct .consent p { margin: 0; font-size: 14px; line-height: 1.45; color: var(--ink); }
+.ct .cta { margin-top: 24px; min-height: 56px; height: 56px; font-size: 17px; font-weight: 800;
+  color: #fff; background: var(--accent); border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(230, 67, 13, .22); }
+@media (max-width: 379px) { .ct .qhead { font-size: 25px; } }
+.ct-badges { display: flex; justify-content: center; align-items: center; gap: 28px; margin: 20px 0 0; }
+.ct-badge { margin: 0; }
+.ct-badge svg { display: block; height: 64px; width: auto; }
+.ct-skip { align-self: center; display: flex; align-items: center; justify-content: center;
+  gap: 6px; margin: 14px auto 0; padding: 8px; border: 0; background: none; font: inherit;
+  font-size: 13px; font-weight: 600; color: var(--faint); cursor: pointer; }
+.ct-skip svg { width: 14px; height: 14px; }
+.ct-skip:hover { color: var(--ink); }
+</style>
 </head>
 <body class="frames">
-<div class="frame-grid"><div><div class="frame"><div class="promo">Get stronger, longer-lasting erections in 2026.<b>Get 30% off instantly</b></div>
-<header class="masthead">
+<div class="frame-grid"><div><div class="frame"><header class="masthead">
   <div class="mast-inner">
     <span class="logo"><svg viewBox="0 0 323 83" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Braevon">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M30.1017 0.124685C31.7959 0.124685 33.3929 0.444836 34.8661 1.10777C36.3635 1.77068 37.689 2.67898 38.7937 3.7837H38.844C39.9486 4.91294 40.8571 6.21388 41.5199 7.71126C42.1583 9.18445 42.5006 10.7328 42.5006 12.3534V32.3868C42.5006 34.572 41.7642 36.3656 40.2419 37.8633C38.7198 39.3606 36.8789 40.098 34.6695 40.0981V40.5896C36.8791 40.5897 38.6957 41.3501 40.2179 42.8723C41.7647 44.3945 42.5006 46.2111 42.5006 48.4208V70.7633C42.5006 72.4571 42.1826 74.0294 41.5199 75.4533C40.8324 76.9265 39.9225 78.228 38.8176 79.3329C37.7128 80.4623 36.3871 81.3225 34.9141 81.9609C33.441 82.5745 31.8196 82.8936 30.1257 82.8936H0V0.124685H30.1017ZM15.5424 67.3272H26.9342V47.1931H15.5424V67.3272ZM15.5424 35.5543H26.9342V15.6431H15.5424V35.5543Z" fill="#01000C"/>
@@ -4443,7 +4488,7 @@
 </svg></span>
     <span class="rating"><span class="txt">Excellent 4.6</span><span class="ck-stars"><i><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.7 6.1 6.6.6-5 4.4 1.5 6.5L10 15.3 4.2 18.6l1.5-6.5-5-4.4 6.6-.6L10 1z"/></svg></i><i><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.7 6.1 6.6.6-5 4.4 1.5 6.5L10 15.3 4.2 18.6l1.5-6.5-5-4.4 6.6-.6L10 1z"/></svg></i><i><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.7 6.1 6.6.6-5 4.4 1.5 6.5L10 15.3 4.2 18.6l1.5-6.5-5-4.4 6.6-.6L10 1z"/></svg></i><i><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.7 6.1 6.6.6-5 4.4 1.5 6.5L10 15.3 4.2 18.6l1.5-6.5-5-4.4 6.6-.6L10 1z"/></svg></i><i><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.7 6.1 6.6.6-5 4.4 1.5 6.5L10 15.3 4.2 18.6l1.5-6.5-5-4.4 6.6-.6L10 1z"/></svg></i></span></span>
   </div>
-</header><div class="navrow"><button class="back-btn" aria-label="Go back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button><div class="track"><div class="fill" style="width:58.33%"></div></div></div><main class="stage"><section class="step"><div class="col"><p class="eyebrow">Medical info</p><h1 class="qhead">Do you use any of the following recreational drugs?</h1><div class="opts" data-group="rec-drugs" data-mode="multi"><button class="opt checkbox" data-value="none" data-exclusive="true"><span class="lbl">None of these</span><span class="ring"></span></button><div class="opt-note"><span>Select all that apply.</span></div><button class="opt checkbox" data-value="cocaine"><span class="lbl">Cocaine</span><span class="ring"></span></button><button class="opt checkbox" data-value="poppers"><span class="lbl">Poppers/Rush (amyl/butyl nitrate)</span><span class="ring"></span></button><button class="opt checkbox" data-value="meth"><span class="lbl">Methamphetamines</span><span class="ring"></span></button><button class="opt checkbox" data-value="cigarettes"><span class="lbl">Cigarettes</span><span class="ring"></span></button><button class="opt checkbox" data-value="other"><span class="lbl">Other</span><span class="ring"></span></button></div><div class="reveal" data-reveal-for="rec-drugs" data-reveal-on="*" data-err="Please explain your use of the drugs you selected to continue."><div class="field"><label for="rec-drugs-detail">Please explain your use of the drugs you selected</label><p class="reveal-sub">How frequently do you use them? When was the last time you used them?</p><textarea id="rec-drugs-detail" placeholder="Write here&hellip;"></textarea></div></div><button class="cta cta-next" data-blocked="1">Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><p class="privacy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>We protect your privacy. Your answers are protected by HIPAA.</p></div></section></main></div></div></div>
+</header><div class="navrow"><button class="back-btn" aria-label="Go back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button><div class="track"><div class="fill" style="width:100.00%"></div></div></div><main class="stage"><section class="step"><div class="col ct"><h1 class="qhead"><span data-name-echo>How</span> can you be reached if necessary?</h1><p class="sub">Our medical team and pharmacy use email and text for patient communication.</p><div class="fields"><div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="hello@example.com" autocomplete="email"/></div><div class="field"><label for="phone">Phone Number</label><input id="phone" type="tel" placeholder="(555) 123-4567" inputmode="tel" autocomplete="tel"/></div></div><div class="consent" data-consent data-consent-required data-err="Please agree to continue."><span class="box"></span><p>By clicking Check Eligibility, I agree to receive emails, customer support text messages and phone calls from Braevon, and I agree to the Terms of Service and Privacy Policy.</p></div><button class="cta cta-next">Check Eligibility<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button class="ct-skip" data-skip-last="35" type="button">Go to checkout<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><div class="ct-badges"><figure class="ct-badge" aria-label="HIPAA compliant"><svg viewBox="0 0 80 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="hpS" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5AA6DF"/><stop offset="1" stop-color="#1F6FB2"/></linearGradient></defs><path d="M40 4 70 14v22c0 19-12.5 31-30 38C22.5 67 10 55 10 36V14z" fill="url(#hpS)" stroke="#16578F" stroke-width="2"/><path d="M40 10 64 18v18c0 15.5-10 25.5-24 31.5C26 61.5 16 51.5 16 36V18z" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.5"/><path d="M40 20v44" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M32 24c3-4 13-4 16 0" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M33 31c5 3 9 3 14 6-5 3-9 3-14 6 5 3 9 3 14 6-5 3-9 3-14 6" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="40" cy="18" r="3" fill="#fff"/><text x="40" y="84" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#2C86C8" letter-spacing=".5">HIPAA</text><text x="40" y="94" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="7.4" fill="#2C86C8" letter-spacing=".6">COMPLIANT</text></svg></figure><figure class="ct-badge" aria-label="Made in USA"><svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><clipPath id="usC"><circle cx="48" cy="48" r="23"/></clipPath><path id="usTop" d="M20 48a28 28 0 0 1 56 0"/><path id="usBot" d="M18 50a30 30 0 0 0 60 0"/></defs><circle cx="91.00" cy="48.00" r="3.2" fill="#1E3A8A"/><circle cx="89.53" cy="59.13" r="3.2" fill="#1E3A8A"/><circle cx="85.24" cy="69.50" r="3.2" fill="#1E3A8A"/><circle cx="78.41" cy="78.41" r="3.2" fill="#1E3A8A"/><circle cx="69.50" cy="85.24" r="3.2" fill="#1E3A8A"/><circle cx="59.13" cy="89.53" r="3.2" fill="#1E3A8A"/><circle cx="48.00" cy="91.00" r="3.2" fill="#1E3A8A"/><circle cx="36.87" cy="89.53" r="3.2" fill="#1E3A8A"/><circle cx="26.50" cy="85.24" r="3.2" fill="#1E3A8A"/><circle cx="17.59" cy="78.41" r="3.2" fill="#1E3A8A"/><circle cx="10.76" cy="69.50" r="3.2" fill="#1E3A8A"/><circle cx="6.47" cy="59.13" r="3.2" fill="#1E3A8A"/><circle cx="5.00" cy="48.00" r="3.2" fill="#1E3A8A"/><circle cx="6.47" cy="36.87" r="3.2" fill="#1E3A8A"/><circle cx="10.76" cy="26.50" r="3.2" fill="#1E3A8A"/><circle cx="17.59" cy="17.59" r="3.2" fill="#1E3A8A"/><circle cx="26.50" cy="10.76" r="3.2" fill="#1E3A8A"/><circle cx="36.87" cy="6.47" r="3.2" fill="#1E3A8A"/><circle cx="48.00" cy="5.00" r="3.2" fill="#1E3A8A"/><circle cx="59.13" cy="6.47" r="3.2" fill="#1E3A8A"/><circle cx="69.50" cy="10.76" r="3.2" fill="#1E3A8A"/><circle cx="78.41" cy="17.59" r="3.2" fill="#1E3A8A"/><circle cx="85.24" cy="26.50" r="3.2" fill="#1E3A8A"/><circle cx="89.53" cy="36.87" r="3.2" fill="#1E3A8A"/><circle cx="48" cy="48" r="43" fill="#1E3A8A"/><circle cx="48" cy="48" r="39" fill="#fff"/><circle cx="48" cy="48" r="36.5" fill="none" stroke="#1E3A8A" stroke-width="1.2"/><text font-family="Arial, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#1E3A8A" letter-spacing="1.2"><textPath href="#usTop" startOffset="50%" text-anchor="middle">MADE IN USA</textPath></text><text font-family="Arial, Helvetica, sans-serif" font-size="8" font-weight="700" fill="#1E3A8A" letter-spacing="1.2"><textPath href="#usBot" startOffset="50%" text-anchor="middle" dominant-baseline="hanging">MADE IN USA</textPath></text><g clip-path="url(#usC)"><rect x="25" y="25" width="46" height="46" fill="#fff"/><rect x="25" y="25.00" width="46" height="3.54" fill="#C8102E"/><rect x="25" y="32.08" width="46" height="3.54" fill="#C8102E"/><rect x="25" y="39.16" width="46" height="3.54" fill="#C8102E"/><rect x="25" y="46.24" width="46" height="3.54" fill="#C8102E"/><rect x="25" y="53.32" width="46" height="3.54" fill="#C8102E"/><rect x="25" y="60.40" width="46" height="3.54" fill="#C8102E"/><rect x="25" y="67.48" width="46" height="3.54" fill="#C8102E"/><rect x="25" y="25" width="22" height="24.8" fill="#1E3A8A"/><circle cx="28.5" cy="28.6" r=".9" fill="#fff"/><circle cx="33.1" cy="28.6" r=".9" fill="#fff"/><circle cx="37.7" cy="28.6" r=".9" fill="#fff"/><circle cx="42.3" cy="28.6" r=".9" fill="#fff"/><circle cx="30.8" cy="32.8" r=".9" fill="#fff"/><circle cx="35.4" cy="32.8" r=".9" fill="#fff"/><circle cx="40.0" cy="32.8" r=".9" fill="#fff"/><circle cx="44.6" cy="32.8" r=".9" fill="#fff"/><circle cx="28.5" cy="37.0" r=".9" fill="#fff"/><circle cx="33.1" cy="37.0" r=".9" fill="#fff"/><circle cx="37.7" cy="37.0" r=".9" fill="#fff"/><circle cx="42.3" cy="37.0" r=".9" fill="#fff"/><circle cx="30.8" cy="41.2" r=".9" fill="#fff"/><circle cx="35.4" cy="41.2" r=".9" fill="#fff"/><circle cx="40.0" cy="41.2" r=".9" fill="#fff"/><circle cx="44.6" cy="41.2" r=".9" fill="#fff"/><circle cx="28.5" cy="45.4" r=".9" fill="#fff"/><circle cx="33.1" cy="45.4" r=".9" fill="#fff"/><circle cx="37.7" cy="45.4" r=".9" fill="#fff"/><circle cx="42.3" cy="45.4" r=".9" fill="#fff"/></g><circle cx="48" cy="48" r="23" fill="none" stroke="#1E3A8A" stroke-width="1.5"/></svg></figure></div></div></section></main></div></div></div>
 <script src="flow.js?v=202609191200"></script>
 </body>
 </html>
