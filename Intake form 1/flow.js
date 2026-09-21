@@ -16,7 +16,7 @@
     "23-cardiovascular-symptoms", "24-cardiovascular-risk-factors",
     "25-blood-pressure", "26-other-health-concerns", "27-anything-else",
     "28-patient-info", "29-consent", "30-processing-product-reveal",
-    "31-onset-chart", "32-preference-stat", "33-medical-review", "33b-contact", "34-checkout",
+    "31-onset-chart", "32-preference-stat", "33-medical-review", "34-checkout",
     "35-upsell", "36-order-confirmed"
   ];
   /* Screens that only appear for certain answers: number -> [group, values]. */
@@ -26,7 +26,7 @@
   };
 
   /* A screen's place is its position in SCREENS, not the number in its file
-     name - so a step can be slotted in (33b, 2026-09-19) without renaming the
+     name, so a step can be slotted in or taken out without renaming the
      checkout and breaking links to it. data-skip-last counts positions too. */
   var file = decodeURIComponent(location.pathname.split("/").pop());
   var m = file.match(/^braevon-screen-(.+)\.html$/);
@@ -247,15 +247,6 @@
     });
     $$("[data-state-name]").forEach(function (e) {
       if (store.fields.state) e.textContent = store.fields.state;
-    });
-    /* "<First name>, how can you be reached": the name leads, in the accent. */
-    $$("[data-name-echo]").forEach(function (e) {
-      var n = (store.fields.firstName || "").trim();
-      if (!n) return;
-      e.textContent = "";
-      var b = document.createElement("span");
-      b.className = "name-echo"; b.textContent = n;
-      e.appendChild(b); e.appendChild(document.createTextNode(", how"));
     });
     /* The medical review reads back earlier answers: each [data-echo] names an
        answer group and carries its value -> label map in data-labels. */
