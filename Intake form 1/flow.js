@@ -186,11 +186,14 @@
     if (claim) claim.focus({ preventScroll: true });
   }
 
-  /* The round "SAVE 33%" tag on the product image belongs to the 12 pack. */
+  /* The round "SAVE 33%" tag on the product image belongs to the packs that
+     carry a saving (`data-save`): the 12 pack, and the 18 pack's 43%. */
   function syncShotSave() {
     var picked = document.querySelector(".ck-pack.selected");
+    var pct = picked && picked.dataset.save;
     $$("[data-shot-save]").forEach(function (t) {
-      t.hidden = !picked || picked.dataset.pack !== "12";
+      t.hidden = !pct;
+      if (pct) t.innerHTML = "SAVE<br>" + pct + "%";
     });
   }
   /* The checkout headline leads with the patient's name and holds to two
@@ -502,8 +505,37 @@
     }
   }
 
+  /* ---------------------------------------------- pack versions (review) */
+  /* TEMPORARY, for client review (see #pack-versions in the medical review):
+     two buttons across the top of screen 33 switch between the original
+     6 / 12 pack offer ("2", the default) and the version that adds an 18 pack
+     ("3", `html.ap-v3`). Delete once one is chosen. */
+  function packVersion(v) {
+    var three = v === "3";
+    document.documentElement.classList.toggle("ap-v3", three);
+    $$(".opt-bar button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.packs === v)); });
+    store.packs = v;
+    /* The 18 pack does not exist in the original version: fall back to the 6. */
+    if (!three && store.pack === "18") { store.pack = "6"; markApPack("6"); }
+    save();
+  }
+  function packBar() {
+    if (!document.querySelector("[data-ap-packs]") || document.querySelector(".opt-bar")) return;
+    var bar = document.createElement("div");
+    bar.className = "opt-bar";
+    bar.innerHTML = '<button type="button" data-packs="2">6 / 12 Pack</button>' +
+      '<button type="button" data-packs="3">6 / 12 / 18 Pack</button>';
+    document.body.insertBefore(bar, document.body.firstChild);
+    bar.addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-packs]");
+      if (b) { e.stopPropagation(); packVersion(b.dataset.packs); }
+    });
+    packVersion((location.search.match(/[?&]packs=([23])/) || [])[1] || store.packs || "2");
+  }
+
   function init() {
     restore();
+    packBar();
     apPacks();
     if (sysEl) {
       if (store.fields.bpSys) { sysEl.value = store.fields.bpSys; diaEl.value = store.fields.bpDia; bpLead(answers.bp && answers.bp[0] === "manual"); checkBP(); }
