@@ -335,15 +335,12 @@
     while (lines() > 2 && size > 18) { size -= 1; h.style.fontSize = size + "px"; }
   }
   function fillCheckout() {
-    /* A pack picked on the medical review (33) is the pack bought here: it is
-       selected through its own button, so the product card follows as on a
-       click, and the other pack is hidden (`.ck-picked`). With no pick, as
-       when the checkout is opened directly, both packs stay to choose from. */
+    /* The pack is chosen here, and only here. One picked earlier in the session
+       is selected again through its own button, so the product card follows as
+       on a click. */
+    packBar();
     var mine = store.pack && document.querySelector('.ck-packs .ck-pack[data-pack="' + store.pack + '"]');
-    if (mine) {
-      if (!mine.classList.contains("selected")) mine.click();
-      document.documentElement.classList.add("ck-picked");
-    }
+    if (mine && !mine.classList.contains("selected")) mine.click();
     var f = store.fields;
     var name = [f.firstName, f.lastName].filter(Boolean).join(" ");
     [["ck_email", f.email], ["ck_phone", f.phone], ["ck_state", f.state], ["ck_name", name]]
@@ -525,9 +522,6 @@
       return;
     }
 
-    var apPack = t.closest("[data-ap-packs] .ap-pack");
-    if (apPack) { markApPack(apPack.dataset.pack); store.pack = apPack.dataset.pack; save(); return; }
-
     var opt = t.closest(".opt, .tile");
     var box = opt && opt.closest("[data-group]");
     if (!box) return;
@@ -610,43 +604,26 @@
     set("[data-up-nowsave]", d.nowsave);
   }
 
-  /* ------------------------------------------- medical review: the packs */
-  /* Screen 33's pack cards and the product card under them. The pick goes to
-     `store.pack`, which the checkout reads to show only that pack. */
-  function markApPack(n) {
-    $$("[data-ap-packs] .ap-pack").forEach(function (c) {
-      var on = c.dataset.pack === String(n);
-      c.classList.toggle("selected", on);
-      c.setAttribute("aria-pressed", String(on));
-    });
-    $$(".ap-prod[data-pack]").forEach(function (c) { c.hidden = c.dataset.pack !== String(n); });
-  }
-  function apPacks() {
-    var lead = document.querySelector("[data-ap-packs] .ap-pack.selected");
-    if (!lead) return;
-    if (store.pack && document.querySelector('[data-ap-packs] .ap-pack[data-pack="' + store.pack + '"]')) {
-      markApPack(store.pack);
-    } else {
-      store.pack = lead.dataset.pack; save();
-    }
-  }
-
-  /* ---------------------------------------------- pack versions (review) */
-  /* TEMPORARY, for client review (see #pack-versions in the medical review):
-     two buttons across the top of screen 33 switch between the original
-     6 / 12 pack offer ("2", the default) and the version that adds an 18 pack
-     ("3", `html.ap-v3`). Delete once one is chosen. */
+  /* -------------------------------------------- pack versions (checkout) */
+  /* TEMPORARY, for client review (see the pack versions rules in the
+     checkout): two buttons across the top of screen 34 switch between the
+     original 6 / 12 pack offer ("2", the default) and the version that adds an
+     18 pack ("3", `html.ck-v3`). Delete once one is chosen. */
   function packVersion(v) {
     var three = v === "3";
-    document.documentElement.classList.toggle("ap-v3", three);
+    document.documentElement.classList.toggle("ck-v3", three);
     $$(".opt-bar button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.packs === v)); });
     store.packs = v;
     /* The 18 pack does not exist in the original version: fall back to the 6. */
-    if (!three && store.pack === "18") { store.pack = "6"; markApPack("6"); }
+    if (!three && store.pack === "18") {
+      var six = document.querySelector('.ck-packs .ck-pack[data-pack="6"]');
+      store.pack = "6";
+      if (six) six.click();
+    }
     save();
   }
   function packBar() {
-    if (!document.querySelector("[data-ap-packs]") || document.querySelector(".opt-bar")) return;
+    if (!document.querySelector(".ck-packs") || document.querySelector(".opt-bar")) return;
     var bar = document.createElement("div");
     bar.className = "opt-bar";
     bar.innerHTML = '<button type="button" data-packs="2">6 / 12 Pack</button>' +
@@ -661,8 +638,6 @@
 
   function init() {
     restore();
-    packBar();
-    apPacks();
     if (sysEl) {
       if (store.fields.bpSys) { sysEl.value = store.fields.bpSys; diaEl.value = store.fields.bpDia; bpLead(answers.bp && answers.bp[0] === "manual"); checkBP(); }
       else {
