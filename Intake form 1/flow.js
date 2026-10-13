@@ -612,11 +612,12 @@
 
   /* -------------------------------------------- pack versions (checkout) */
   /* TEMPORARY, for client review (see the pack versions rules in the
-     checkout): three buttons across the top of screen 34 switch between the
-     original 6 / 12 pack offer ("2", the default), the version that adds an
-     18 pack ("3", `html.ck-v3`), and that same 18 pack version with Amazon Pay
-     among the payment methods ("a", `html.ck-v3.ck-amz`). Delete once one is
-     chosen. */
+     checkout): two buttons across the top of screen 34 switch between the
+     original 6 / 12 pack offer ("2", the default) and the version that adds an
+     18 pack ("3", `html.ck-v3`). Delete once one is chosen.
+     A third version, the 18 pack offer with Amazon Pay among the payment
+     methods ("a", `html.ck-v3.ck-amz`), is hidden for now (2026-10-13): it has
+     no button and is only reachable as `?packs=a`. */
   function packVersion(v) {
     var three = v === "3" || v === "a", amazon = v === "a";
     document.documentElement.classList.toggle("ck-v3", three);
@@ -640,14 +641,15 @@
     var bar = document.createElement("div");
     bar.className = "opt-bar";
     bar.innerHTML = '<button type="button" data-packs="2">6 / 12 Pack</button>' +
-      '<button type="button" data-packs="3">6 / 12 / 18 Pack</button>' +
-      '<button type="button" data-packs="a">Amazon Pay</button>';
+      '<button type="button" data-packs="3">6 / 12 / 18 Pack</button>';
     document.body.insertBefore(bar, document.body.firstChild);
     bar.addEventListener("click", function (e) {
       var b = e.target.closest("button[data-packs]");
       if (b) { e.stopPropagation(); packVersion(b.dataset.packs); }
     });
-    packVersion((location.search.match(/[?&]packs=([23a])/) || [])[1] || store.packs || "2");
+    /* A remembered "a" is not restored: with its button hidden it would leave
+       the bar with nothing pressed. It falls back to the 18 pack version. */
+    packVersion((location.search.match(/[?&]packs=([23a])/) || [])[1] || (store.packs === "a" ? "3" : store.packs) || "2");
   }
 
   function init() {
