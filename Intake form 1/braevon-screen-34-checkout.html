@@ -1807,7 +1807,9 @@ html.ck-amz .ck-pay{display:grid;grid-template-columns:1fr 1fr}
 /* The mark is Amazon Pay's own logo artwork (the SVG the client supplied,
    2026-10-13), cropped to the wordmark and drawn in the button's dark ink. */
 .ck-pay-opt > .ck-pm-amzn{color:#111;line-height:0}
-.ck-pm-amzn svg{height:27px;width:auto;display:block}
+/* Nudged 3px down (2026-10-13): the word carries the weight and the smile
+   under it is light, so true centre reads as sitting high. */
+.ck-pm-amzn svg{height:27px;width:auto;display:block;position:relative;top:3px}
 /* Packaging render in the BRAEVON 4-in-1 card, as large as the text beside it allows. */
 .ck-prog-body{gap:14px}
 .ck-prog-body img{width:44%;max-width:200px}
