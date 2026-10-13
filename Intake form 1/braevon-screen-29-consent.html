@@ -698,6 +698,9 @@
   .cs-top { display: flex; align-items: center; gap: 12px; margin-bottom: var(--gap-eyebrow); }
   .cs-back { flex: 0 0 auto; display: flex; }
   .cs-top .eyebrow { margin: 0; }
+  /* The back button sits in the nav row now; the empty slot must not cost the
+     eyebrow its 12px gap. */
+  .cs-top .cs-back:empty { display: none; }
 
   /* **One line, at every width — and that is house rule 4 bending.** The rule is
      that `--fs-title` sizes every h1 so titles match page to page; the client
@@ -714,7 +717,9 @@
      288 / 343 / 547 / 560 / 640px need 20.2 / 24.1 / 38.4 / 39.3 / 45px and get
      19.9 / 23.7 / 37.7 / 38.6 / 44.2. **Re-measure if the wording changes** — a
      longer title needs a smaller coefficient. */
-  .cs-col { container-type: inline-size; }
+  /* `width: 100%` with it: a size container has no width of its own, so the
+     column's auto margins in the flex row would otherwise collapse it to 0. */
+  .cs-col { container-type: inline-size; width: 100%; }
   /* Tightened on 2026-08-17 — the client marked the three gaps down the top of
      this screen as too open. Expressed as a fraction of the rhythm tokens rather
      than as literals, so house rule 3 still holds: the screen keeps moving with
