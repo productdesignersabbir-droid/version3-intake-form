@@ -74,6 +74,132 @@
   var $$ = function (sel, root) { return [].slice.call((root || document).querySelectorAll(sel)); };
   var isCheckout = !!document.querySelector("[data-checkout]");
 
+  /* ----------------------------------------------------- email suggestion */
+  /* A mistyped address ("name@gmail.codsa") gets a "Did you mean …?" row under
+     the field, on every email input of the flow (patient info and checkout).
+     It is an offer, not an error: it never blocks Continue, "Use it" writes the
+     correction into the field, and the × puts it away for that address. */
+  /* Providers whose name alone says what the domain should be. `multi` ones
+     also live on country domains (yahoo.co.uk), which are left alone. */
+  var MAIL = {
+    gmail: "gmail.com", googlemail: "googlemail.com", icloud: "icloud.com", aol: "aol.com",
+    msn: "msn.com", ymail: "ymail.com", rocketmail: "rocketmail.com", protonmail: "protonmail.com",
+    sbcglobal: "sbcglobal.net",
+    bellsouth: "bellsouth.net", earthlink: "earthlink.net", optonline: "optonline.net",
+    yahoo: "yahoo.com", hotmail: "hotmail.com", outlook: "outlook.com"
+  };
+  var MAIL_MULTI = { yahoo: 1, hotmail: 1, outlook: 1 };
+  var MAIL_COUNTRY = ["co.uk", "ca", "fr", "de", "es", "it", "nl", "be", "se", "dk", "no", "ie", "ch", "at",
+    "pt", "gr", "in", "co.in", "co.jp", "com.au", "co.nz", "com.br", "com.mx", "com.ar", "com.sg", "co.za"];
+  /* Real names that sit one or two letters from a provider above: never "corrected". */
+  var MAIL_OWN = ["mail", "email", "gmx", "live", "me", "mac", "att", "cox", "proton", "pm", "hey", "zoho"];
+  var TLDS = ["com", "net", "org", "edu"];
+  var TLD_REAL = ["cam", "new", "nec", "bet", "pet", "vet"];
+
+  function editDistance(a, b) {
+    var row = [], i, j, prev, tmp;
+    for (j = 0; j <= b.length; j++) row[j] = j;
+    for (i = 1; i <= a.length; i++) {
+      prev = row[0]; row[0] = i;
+      for (j = 1; j <= b.length; j++) {
+        tmp = row[j];
+        row[j] = Math.min(row[j] + 1, row[j - 1] + 1, prev + (a.charAt(i - 1) === b.charAt(j - 1) ? 0 : 1));
+        prev = tmp;
+      }
+    }
+    return row[b.length];
+  }
+  function suggestEmail(value) {
+    var v = String(value).trim(), at = v.lastIndexOf("@");
+    if (at < 1 || at === v.length - 1 || /\s/.test(v)) return null;
+    var local = v.slice(0, at), domain = v.slice(at + 1).toLowerCase().replace(/\.+$/, "");
+    var dot = domain.indexOf(".");
+    var name = dot < 0 ? domain : domain.slice(0, dot), rest = dot < 0 ? "" : domain.slice(dot + 1);
+    var fixed = null, provider = MAIL[name] ? name : null;
+    if (!provider && MAIL_OWN.indexOf(name) < 0) {
+      /* "gmial", "hotmal": one slip on a short name, two on a longer one. */
+      var best = 3;
+      Object.keys(MAIL).forEach(function (p) {
+        var d = editDistance(name, p);
+        if (d < best && d <= (p.length > 4 ? 2 : 1)) { best = d; provider = p; }
+      });
+    }
+    if (provider) {
+      fixed = MAIL_MULTI[provider] && MAIL_COUNTRY.indexOf(rest) > -1 ? provider + "." + rest : MAIL[provider];
+    } else if (rest) {
+      /* Any other domain: only an ending that is plainly a slip of .com/.net/.org/.edu. */
+      var cut = rest.lastIndexOf("."), tld = rest.slice(cut + 1), to = null;
+      if (tld === "cm" || tld === "om") to = "com";
+      else if (tld.length > 2 && TLDS.indexOf(tld) < 0 && TLD_REAL.indexOf(tld) < 0) {
+        TLDS.forEach(function (t) { if (!to && editDistance(tld, t) === 1) to = t; });
+      }
+      if (to) fixed = name + "." + rest.slice(0, cut + 1) + to;
+    }
+    return fixed && fixed !== domain ? local + "@" + fixed : null;
+  }
+  function emailSuggestions() {
+    var css = document.createElement("style");
+    css.textContent =
+      ".em-sug{display:flex;align-items:center;gap:12px;margin:8px 0 0;padding:9px 12px 9px 14px;" +
+      "border:1.5px solid var(--ink,#171D2C);border-radius:8px;background:#E9ECF1;" +
+      "font-size:14px;line-height:1.35;color:var(--ink,#171D2C);text-align:left}" +
+      ".em-sug[hidden]{display:none}" +
+      ".em-sug span{flex:1;min-width:0;overflow-wrap:anywhere}.em-sug b{font-weight:700}" +
+      ".em-sug button{flex:none;margin:0;padding:0;border:0;background:none;font:inherit;color:inherit;cursor:pointer}" +
+      ".em-sug-use{font-weight:700;text-decoration:underline;text-underline-offset:2px}" +
+      ".em-sug-x{width:24px;height:24px;font-size:20px;line-height:1;color:var(--muted,#4B5568)}" +
+      ".em-sug button:focus-visible{outline:2px solid var(--accent,#E6430D);outline-offset:2px;border-radius:4px}";
+    document.head.appendChild(css);
+
+    function rowFor(input) {
+      var row = input.parentNode.querySelector(".em-sug");
+      if (row) return row;
+      row = document.createElement("div");
+      row.className = "em-sug"; row.hidden = true;
+      row.setAttribute("role", "status");
+      row.innerHTML = '<span>Did you mean <b></b>?</span>' +
+        '<button type="button" class="em-sug-use">Use it</button>' +
+        '<button type="button" class="em-sug-x" aria-label="Dismiss suggestion">&times;</button>';
+      input.insertAdjacentElement("afterend", row);
+      return row;
+    }
+    function check(input) {
+      var s = suggestEmail(input.value), row = rowFor(input);
+      if (!s || input.dataset.sugNo === input.value.trim()) { row.hidden = true; return; }
+      row.querySelector("b").textContent = s;
+      row.hidden = false;
+    }
+    /* Offered once the address is finished (leaving the field), then kept in
+       step with further typing; never while the first attempt is mid-word. */
+    document.addEventListener("focusout", function (e) {
+      if (e.target.matches && e.target.matches('input[type="email"]')) check(e.target);
+    });
+    document.addEventListener("input", function (e) {
+      if (!e.target.matches || !e.target.matches('input[type="email"]')) return;
+      var row = e.target.parentNode.querySelector(".em-sug");
+      if (row && !row.hidden) check(e.target);
+    });
+    /* mousedown is held back so the field keeps focus and the row does not
+       re-run its check under the pointer. */
+    document.addEventListener("mousedown", function (e) {
+      if (e.target.closest && e.target.closest(".em-sug button")) e.preventDefault();
+    });
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest && e.target.closest(".em-sug button");
+      if (!b) return;
+      var row = b.parentNode, input = row.previousElementSibling;
+      if (b.className === "em-sug-use") {
+        input.value = row.querySelector("b").textContent;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      } else {
+        input.dataset.sugNo = input.value.trim();
+      }
+      row.hidden = true;
+      input.focus();
+    });
+  }
+  emailSuggestions();
+
   /* ------------------------------------------------------------- checkout */
   /* The checkout ships its own script. Only its exits are rewired here, in the
      capture phase so its own "Checkout" handler (which would show an
@@ -187,7 +313,7 @@
   }
 
   /* The round "SAVE 33%" tag on the product image belongs to the packs that
-     carry a saving (`data-save`): the 12 pack, and the 18 pack's 43%. */
+     carry a saving (`data-save`): the 12 pack, and the 18 pack's 42%. */
   function syncShotSave() {
     var picked = document.querySelector(".ck-pack.selected");
     var pct = picked && picked.dataset.save;
