@@ -1265,6 +1265,17 @@ html.ck-v3 .ck-cover{font-size:12px}
   html.ck-v3 .ck-cover{font-size:11px;letter-spacing:-.01em}
   html.ck-v3 .ck-save{font-size:11px;padding:2px 4px}
 }
+/* The narrowest phones (a 280px fold cover, 320px): the cards stay one size,
+   and their contents step down once more so nothing spills past an edge. The
+   coverage line may take two lines here - it does in every card alike. */
+@media (max-width:340px){
+  .ck-packs .ck-pack em{font-size:10px;padding:4px 5px;letter-spacing:0}
+  html.ck-v3 .ck-pack em{font-size:7.5px;padding:3px 3px;letter-spacing:0}
+  html.ck-v3 .ck-pack b{font-size:15px;white-space:nowrap}
+  html.ck-v3 .ck-cover{font-size:10.5px;white-space:normal}
+  html.ck-v3 .ck-pack small{white-space:normal}
+  html.ck-v3 .ck-save{font-size:10px;padding:2px 3px}
+}
 /* Every card draws the same outline weight and the same grey shadow, selected
    or not (2026-10-13): the cards are one size, but a crisp accent outline with
    a tinted halo beside hairline-and-shadow neighbours made the selected card
