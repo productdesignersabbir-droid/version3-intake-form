@@ -1451,6 +1451,9 @@ html.ck-v3 .ck-cover{font-size:12px}
 .ck-link svg:last-child{width:13px;height:13px;margin-left:-2px}
 .ck-cardno{position:relative}
 .ck-cardno input{padding-right:110px}
+/* The security code carries one small glyph, not four brand marks: the wide
+   padding clipped its "CVC" placeholder on a phone. */
+.ck-cardno input#ck_cvc{padding-right:44px}
 .ck-brands{position:absolute;top:50%;right:10px;transform:translateY(-50%);
   display:flex;align-items:center;gap:4px;pointer-events:none}
 .ck-brand{display:flex;align-items:center;justify-content:center;
