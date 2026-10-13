@@ -461,6 +461,8 @@
         if (!v) why = "This field is required.";
         else if (f.type === "email" && !/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v)) why = "Enter a valid email address.";
         else if (f.type === "tel" && v.replace(/\D/g, "").length < 10) why = "Enter a valid phone number.";
+        /* 40 to 180 kg, in the pounds the field asks for. */
+        else if (f.id === "weight" && !(+v >= 88 && +v <= 397)) why = "Enter a weight between 88 and 397 lbs.";
         if (why) bad.push([fld, why]);
       });
     });
@@ -567,6 +569,8 @@
       bpLead(true); checkBP(); save();
       return;
     }
+    /* Weight is whole pounds: digits only, three at most. */
+    if (f.id === "weight") f.value = f.value.replace(/\D/g, "").slice(0, 3);
     if (f.id) { store.fields[f.id] = f.value; save(); }
     var fld = f.closest(".field");
     if (fld) $$(".err[data-flow]", fld).forEach(function (x) { x.remove(); });
