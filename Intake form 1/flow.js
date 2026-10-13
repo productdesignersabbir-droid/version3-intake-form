@@ -254,21 +254,23 @@
   function money(n) { return "$" + n.toFixed(2); }
   function priceOf(str) { return parseFloat(String(str).replace(/[^\d.]/g, "")) || 0; }
   function renderDiscount() {
-    if (!store.discount) return;
-    $$(".ck-pack[data-price]").forEach(function (p) {
-      if (!p.dataset.fullPrice) p.dataset.fullPrice = p.dataset.price;
-      p.dataset.price = money(priceOf(p.dataset.fullPrice) * 0.75);
-    });
     var picked = document.querySelector(".ck-pack.selected");
-    if (picked) {
-      $$("[data-pack-price]").forEach(function (el) {
-        el.innerHTML = '<s class="ck-was">' + picked.dataset.fullPrice + "</s> " + picked.dataset.price;
+    if (store.discount) {
+      $$(".ck-pack[data-price]").forEach(function (p) {
+        if (!p.dataset.fullPrice) p.dataset.fullPrice = p.dataset.price;
+        p.dataset.price = money(priceOf(p.dataset.fullPrice) * 0.75);
       });
+      if (picked) {
+        $$("[data-pack-price]").forEach(function (el) {
+          el.innerHTML = '<s class="ck-was">' + picked.dataset.fullPrice + "</s> " + picked.dataset.price;
+        });
+      }
     }
-    $$(".ck-ready-strip b").forEach(function (el) {
-      if (!el.dataset.fullPrice) el.dataset.fullPrice = el.textContent;
-      el.textContent = money(priceOf(el.dataset.fullPrice) * 0.75);
-    });
+    /* "Prescriptions start at just …" follows the pack that is selected, at
+       the price it is being sold for right now (discount included). */
+    if (picked) {
+      $$(".ck-ready-strip b").forEach(function (el) { el.textContent = picked.dataset.price; });
+    }
   }
   function scheduleOffer() {
     if (store.discount || scheduleOffer.done) return;
