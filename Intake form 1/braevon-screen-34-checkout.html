@@ -1253,6 +1253,10 @@ html:not(.ck-v3) .ck-pack em.v3{display:none}
 html.ck-v3 .ck-pack[data-pack="6"] em,
 html.ck-v3 .ck-pack[data-pack="12"] em:not(.v3){display:none}
 html.ck-v3 .ck-packs{gap:10px}
+/* The client reads the badge-less 6 pack as wider than the other two, though
+   the three measured the same. Asked for on 2026-10-13: it is drawn about 4%
+   narrower than its neighbours, on purpose, so the row reads as even. */
+html.ck-v3 .ck-pack[data-pack="6"]{flex-grow:.96}
 html.ck-v3 .ck-pack{padding-left:6px;padding-right:6px}
 html.ck-v3 .ck-pack em{font-size:10.5px;padding:4px 6px}
 html.ck-v3 .ck-pack b{font-size:21px}
