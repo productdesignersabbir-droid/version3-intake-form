@@ -1265,7 +1265,13 @@ html.ck-v3 .ck-cover{font-size:12px}
   html.ck-v3 .ck-cover{font-size:11px;letter-spacing:-.01em}
   html.ck-v3 .ck-save{font-size:11px;padding:2px 4px}
 }
-.ck-pack.selected{border-color:var(--accent-line);box-shadow:0 4px 20px var(--glow)}
+/* Every card draws the same outline weight and the same grey shadow, selected
+   or not (2026-10-13): the cards are one size, but a crisp accent outline with
+   a tinted halo beside hairline-and-shadow neighbours made the selected card
+   read as a different size. Selection is the outline's colour plus a ring
+   drawn INSIDE the card, so the silhouette never changes. */
+.ck-packs .ck-pack{border-color:var(--border)}
+.ck-packs .ck-pack.selected{border-color:var(--accent-line);box-shadow:var(--shadow),inset 0 0 0 1px var(--accent-line)}
 /* Only the "most popular" card carries a badge. Pinned to the top-right corner
    on 2026-09-07; it used to sit in the flow above the title, which pushed that
    card's price down and needed a 33px shim on the other card to bring the two
